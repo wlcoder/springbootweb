@@ -1,0 +1,22 @@
+server:
+  port: 8083
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  datasource:
+    name: report
+    url: jdbc:mysql://127.0.0.1:3306/longhui
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  mvc:
+    date-format: yyyy-MM-dd
+  thymelraf:
+    cache: false
+  messages:
+    basename: i18n.login
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.springboot.entity

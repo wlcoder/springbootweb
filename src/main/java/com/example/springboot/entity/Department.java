@@ -2,36 +2,45 @@ package com.example.springboot.entity;
 
 public class Department {
 
-	private Integer id;
-	private String departmentName;
+    private Integer id;
+    private String departmentCode;
+    private String departmentName;
 
-	public Department() {
-	}
-	
-	public Department(int i, String string) {
-		this.id = i;
-		this.departmentName = string;
-	}
+    public Department() {
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Department(int i, String string) {
+        this.id = i;
+        this.departmentName = string;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getDepartmentName() {
-		return departmentName;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
-	}
+    public String getDepartmentCode() {
+        return departmentCode;
+    }
 
-	@Override
-	public String toString() {
-		return "Department [id=" + id + ", departmentName=" + departmentName + "]";
-	}
-	
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    @Override
+    public String toString() {
+        return "Department [id=" + id + ", departmentName=" + departmentName + "]";
+    }
+
 }

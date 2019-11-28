@@ -1,17 +1,22 @@
 package com.example.springboot.service.impl;
 
+import com.example.springboot.entity.Department;
 import com.example.springboot.entity.Employee;
+import com.example.springboot.mapper.DepartmentMapper;
 import com.example.springboot.mapper.EmployeeMapper;
 import com.example.springboot.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeMapper employeeMapper;
+    @Autowired
+    private DepartmentMapper departmentMapper;
 
     @Override
     public void saveEmployee(Employee employee) {
@@ -20,7 +25,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAllEmployee() {
-        return employeeMapper.getAllEmployee();
+        List<Employee> list = employeeMapper.getAllEmployee();
+        List<Employee> employeeslist = new ArrayList<>();
+        if (null != list && list.size() > 0) {
+            for (Employee emp : list) {
+                Department dept = departmentMapper.getDept(emp.getDeptId());
+                emp.setDepartment(dept);
+                employeeslist.add(emp);
+            }
+        }
+        return employeeslist;
     }
 
     @Override

@@ -10,6 +10,7 @@ public class Employee {
     private Integer gender;
     private Department department;
     private Date birth;
+    private Integer deptId;
 
     public Integer getId() {
         return id;
@@ -59,4 +60,11 @@ public class Employee {
         this.birth = birth;
     }
 
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
 }

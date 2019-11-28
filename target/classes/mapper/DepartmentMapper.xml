@@ -4,7 +4,16 @@
     <resultMap id="BaseResultMap" type="com.example.springboot.entity.Department">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="department_name" property="departmentName" jdbcType="VARCHAR"/>
+        <result column="department_code" property="departmentCode" jdbcType="VARCHAR"/>
     </resultMap>
+    <!--根据Id查询部门-->
+    <select id="getDept" resultMap="BaseResultMap">
+         select id,department_name,department_code from department where id =#{id}
+    </select>
+    <!--查询所有部门-->
+    <select id="getAllDept" resultMap="BaseResultMap">
+         select id,department_name,department_code from department
+    </select>
 
 
 </mapper>

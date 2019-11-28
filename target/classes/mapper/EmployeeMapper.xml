@@ -12,11 +12,11 @@
 
     <!--查询所有员工-->
     <select id="getAllEmployee" resultMap="BaseResultMap">
-         select id,name,email,gender,birth,dept_id from employee
+         select id,name,email,gender,birth,dept_id  from employee
     </select>
     <!--查询单个员工-->
     <select id="getEmployee" resultMap="BaseResultMap">
-         select id,name,email,gender,birth ,dept_idfrom employee where id =#{id}
+         select id,name,email,gender,birth ,dept_id from employee where id =#{id}
     </select>
     <!--保存-->
     <insert id="saveEmployee" parameterType="com.example.springboot.entity.Employee">
@@ -24,7 +24,7 @@
     </insert>
     <!--修改-->
     <update id="updateEmployee">
-        update employee set name=#{name},email=#{email},gender=#{gender},birth=#{birth} ,dept_id=#{deptId})where id= #{id}
+        update employee set name=#{name},email=#{email},gender=#{gender},birth=#{birth},dept_id=#{deptId}  where id= #{id}
     </update>
     <!--删除-->
     <delete id="delEmployee">

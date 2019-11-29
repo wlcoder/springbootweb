@@ -83,7 +83,7 @@
                     <label>部门</label>
                     <!--提交的是部门的id-->
                     <select class="form-control" name="deptId">
-                        <option th:selected="${emp!=null}?${dept.id == emp.department.id}" th:value="${dept.id}"
+                        <option th:selected="${emp!=null}?${dept.id == emp.deptId}" th:value="${dept.id}"
                                 th:each="dept:${depts}" th:text="${dept.departmentName}">1
                         </option>
                     </select>

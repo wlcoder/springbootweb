@@ -23,7 +23,6 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             //已登陆，放行请求
             return true;
         }
-
     }
 
     @Override

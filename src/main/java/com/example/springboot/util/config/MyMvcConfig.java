@@ -21,11 +21,12 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
     @Bean
     public WebMvcConfigurerAdapter webMvcConfigurerAdapter() {
         WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() {
+            //请求/,/index.html 跳转到login.index; main.html 跳转到dashboard.html
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
                 registry.addViewController("/").setViewName("login");
                 registry.addViewController("/index.html").setViewName("login");
-                registry.addViewController("/main.html").setViewName("login");
+                registry.addViewController("/main.html").setViewName("dashboard");
             }
 
             //注册拦截器

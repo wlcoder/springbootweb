@@ -7,3 +7,4 @@ springboot +thymeleaf
 新增拦截器验证是否登录；
 新增session登录以及注销；
 新增pageHelper分页；
+新增logback日志；

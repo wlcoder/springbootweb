@@ -4,6 +4,8 @@ import com.example.springboot.entity.Department;
 import com.example.springboot.entity.Employee;
 import com.example.springboot.service.DepartmentService;
 import com.example.springboot.service.EmployeeService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +23,11 @@ public class EmployeeController {
 
     //查询所有员工返回列表页面
     @GetMapping("/emps")
-    public String list(Model model) {
+    public String list(Model model, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "5") int size) {
+        PageHelper.startPage(start, size, "id desc");
         List<Employee> employees = employeeService.getAllEmployee();
-        model.addAttribute("emps", employees);
+        PageInfo<Employee> page = new PageInfo<>(employees);
+        model.addAttribute("page", page);
         return "emp/list";
     }
 

@@ -22,6 +22,7 @@
                 opacity: 1
             }
         }
+
         @keyframes chartjs-render-animation {
             from {
                 opacity: 0.99
@@ -62,13 +63,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="emp:${emps}">
+                    <tr th:each="emp:${page.list}">
                         <td th:text="${emp.id}"></td>
                         <td th:text="${emp.name}"></td>
                         <td th:text="${emp.email}"></td>
                         <td th:text="${emp.gender}==0?'女':'男'"></td>
                         <td th:text="${emp.department.departmentName}==null ?'':${emp.department.departmentName}"></td>
-                        <td th:text="${#dates.format(emp.birth, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td th:text="${#dates.format(emp.birth, 'yyyy-MM-dd')}"></td>
                         <td>
                             <a class="btn btn-sm btn-primary" th:href="@{/emp/}+${emp.id}">编辑</a>
                             <button th:attr="del_uri=@{/emp/}+${emp.id}" class="btn btn-sm btn-danger deleteBtn">删除
@@ -85,6 +86,25 @@
     </div>
 </div>
 
+<div class="form-group">
+    <div class="col-sm-2 control-label">
+        <a href="/toAdd" th:href="@{/toAdd}" class="btn btn-info">add</a>
+    </div>
+</div>
+<div class="modal-footer">
+    <ul class="pagination pull-right no-margin">
+        <div>
+            <a class="allpage"><b th:text="'共 '+ ${page.getPages()}+ ' 页'"></b></a>
+            <a class="allpage"><b th:text="'共 '+ ${page.getNavigatePages()}+ ' 条'"></b></a>
+            <a th:href="@{/emps/?start=}+${page.getFirstPage()}">[首 页]</a>
+            <a th:href="@{/emps/?start=}+${page.pageNum-1}">[上一页]</a>
+            <a th:href="@{/emps/?start=}+${page.pageNum+1}">[下一页]</a>
+            <a th:href="@{/emps/?start=}+${page.pages}">[末 页]</a>
+        </div>
+    </ul>
+</div>
+
+
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
@@ -94,6 +114,7 @@
         th:src="@{/webjars/popper.js/1.11.1/dist/popper.js}"></script>
 <script type="text/javascript" src="asserts/js/bootstrap.min.js"
         th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.js}"></script>
+
 <!-- Icons -->
 <script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
 <script>

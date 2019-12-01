@@ -75,6 +75,7 @@
             <artifactId>bootstrap</artifactId>
             <version>4.0.0</version>
         </dependency>
+        <!--引入mysql-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -101,12 +102,21 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
-
         <!--热部署devtools-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+        </dependency>
+        <!--分页工具pagehelper-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
         </dependency>
     </dependencies>
 

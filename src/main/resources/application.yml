@@ -36,9 +36,25 @@ spring:
     useGlobalDataSourceStat: true
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-
+ #  redis配置
+  redis:
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: root123456
+    # 连接超时时间（毫秒）
+    timeout: 3
+    # 连接池中的最大连接数
+    poolMaxTotal: 10
+    # 连接池中的最大空闲连接
+    poolMaxIdle: 10
+    # 连接池最大阻塞等待时间（使用负值表示没有限制）
+    poolMaxWait: 3
+# mvc日期格式化
   mvc:
     date-format: yyyy-MM-dd
+# thymeleaf缓存设置
   thymeleaf:
     cache: false
 #配置国际化

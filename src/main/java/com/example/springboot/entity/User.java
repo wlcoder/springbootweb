@@ -1,8 +1,11 @@
 package com.example.springboot.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Integer id;
 
@@ -93,5 +96,20 @@ public class User {
 
     public void setIp(String ip) {
         this.ip = ip == null ? null : ip.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", birthday=" + birthday +
+                ", gender=" + gender +
+                ", ip='" + ip + '\'' +
+                '}';
     }
 }

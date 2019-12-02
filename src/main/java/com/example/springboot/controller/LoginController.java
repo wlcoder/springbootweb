@@ -2,6 +2,7 @@ package com.example.springboot.controller;
 
 import com.example.springboot.entity.User;
 import com.example.springboot.service.UserService;
+import com.example.springboot.util.redis.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,9 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisUtil redisUtil;
+
 
     @PostMapping(value = "/login")
     public String login(@RequestParam("username") String username,
@@ -33,6 +37,11 @@ public class LoginController {
                 session.setMaxInactiveInterval(60 * 60);
                 //用于页面显示登录用户名
                 session.setAttribute("loginUser", username);
+                //将用户保存进redis 测试
+                redisUtil.set("user", user);
+                System.out.println("redis中保存的user:" + redisUtil.get("user"));
+                redisUtil.del("user");
+                System.out.println("redis中保存的user:" + redisUtil.get("user"));
                 return "dashboard";
             } else {
                 //登陆失败

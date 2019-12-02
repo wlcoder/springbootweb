@@ -1,9 +1,10 @@
 package com.example.springboot.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Employee {
-
+public class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer id;
     private String name;
     private String email;

@@ -37,6 +37,9 @@ public class LoginController {
                 session.setMaxInactiveInterval(60 * 60);
                 //用于页面显示登录用户名
                 session.setAttribute("loginUser", username);
+
+                //sessionId 放入redis中
+                redisUtil.set("sessionId",session.getId());
                 //将用户保存进redis 测试
                 redisUtil.set("user", user);
                 System.out.println("redis中保存的user:" + redisUtil.get("user"));

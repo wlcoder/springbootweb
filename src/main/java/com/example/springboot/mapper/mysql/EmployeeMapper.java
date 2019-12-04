@@ -1,4 +1,4 @@
-package com.example.springboot.mapper;
+package com.example.springboot.mapper.mysql;
 
 
 import com.example.springboot.entity.Employee;

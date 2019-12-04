@@ -2,8 +2,8 @@ package com.example.springboot.service.impl;
 
 import com.example.springboot.entity.Department;
 import com.example.springboot.entity.Employee;
-import com.example.springboot.mapper.DepartmentMapper;
-import com.example.springboot.mapper.EmployeeMapper;
+import com.example.springboot.mapper.mysql.DepartmentMapper;
+import com.example.springboot.mapper.mysql.EmployeeMapper;
 import com.example.springboot.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

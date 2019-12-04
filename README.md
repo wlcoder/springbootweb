@@ -10,3 +10,5 @@ springboot +thymeleaf
 新增logback日志；  
 新增druid数据源配置；  
 新增swagger测试；  
+新增redis缓存；  
+

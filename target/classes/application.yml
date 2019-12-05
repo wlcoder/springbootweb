@@ -8,6 +8,7 @@ spring:
 #配置mysql数据源
   datasource:
     mysql:
+#     指定主数据源
       primary: true
       name: report
       url: jdbc:mysql://127.0.0.1:3306/longhui

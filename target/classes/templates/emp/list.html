@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Dashboard Template for Bootstrap</title>
+    <title>springboot</title>
     <!-- Bootstrap core CSS -->
     <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -94,12 +94,13 @@
 <div class="modal-footer">
     <ul class="pagination pull-right no-margin">
         <div>
-            <a class="allpage"><b th:text="'共 '+ ${page.getPages()}+ ' 页'"></b></a>
-            <a class="allpage"><b th:text="'共 '+ ${page.getNavigatePages()}+ ' 条'"></b></a>
-            <a th:href="@{/emps/?start=}+${page.getFirstPage()}">[首 页]</a>
-            <a th:href="@{/emps/?start=}+${page.pageNum-1}">[上一页]</a>
-            <a th:href="@{/emps/?start=}+${page.pageNum+1}">[下一页]</a>
-            <a th:href="@{/emps/?start=}+${page.pages}">[末 页]</a>
+            <a class="allpage"><b th:text="'当前第 '+ ${page.pageNum}+ ' 页'"></b></a>
+            <a class="allpage"><b th:text="'共 '+ ${page.pages}+ ' 页'"></b></a>
+            <a class="allpage"><b th:text="'共 '+ ${page.total}+ ' 条'"></b></a>
+            <a th:href="@{/emps}">首页</a>
+            <a th:href="@{/emps(pageNum=${page.hasPreviousPage}?${page.prePage}:1)}">上一页</a>
+            <a th:href="@{/emps(pageNum=${page.hasNextPage}?${page.nextPage}:${page.pages})}">下一页</a>
+            <a th:href="@{/emps(pageNum=${page.pages})}">尾页</a>
         </div>
     </ul>
 </div>

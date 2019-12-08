@@ -12,7 +12,7 @@
 
     <!--查询所有员工-->
     <select id="getAllEmployee" resultMap="BaseResultMap">
-         select id,name,email,gender,birth,dept_id  from employee
+         select *  from employee
     </select>
     <!--查询单个员工-->
     <select id="getEmployee" resultMap="BaseResultMap">

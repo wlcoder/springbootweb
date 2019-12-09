@@ -70,6 +70,12 @@ spring:
 #配置国际化
   messages:
     basename: i18n.login
+#    rabbitmq配置
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+
 #配置mybatis
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -80,4 +86,5 @@ pagehelper:
   params: count=countSql
   reasonable: true
   support-methods-arguments: true
+
 

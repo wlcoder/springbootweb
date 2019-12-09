@@ -12,5 +12,6 @@ springboot +thymeleaf
 新增swagger测试；  
 新增redis缓存；  
 新增mysql,oracle双数据源；  
+新增RabbitMq测试；  
   
 

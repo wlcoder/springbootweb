@@ -43,8 +43,8 @@ public class LoginController {
                 //将用户保存进redis 测试
                 redisUtil.set("user", user);
                 System.out.println("redis中保存的user:" + redisUtil.get("user"));
-                redisUtil.del("user");
-                System.out.println("redis中保存的user:" + redisUtil.get("user"));
+//                redisUtil.del("user");
+//                System.out.println("redis中保存的user:" + redisUtil.get("user"));
                 return "dashboard";
             } else {
                 //登陆失败

@@ -1,15 +1,9 @@
 package com.example.springboot.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class User {
     private Long id;
-
-    private String username;
 
     private String nickname;
 
@@ -27,7 +21,6 @@ public class User implements Serializable {
 
     private String image;
 
-
     public Long getId() {
         return id;
     }
@@ -36,20 +29,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getNickname() {
         return nickname;
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+        this.nickname = nickname == null ? null : nickname.trim();
     }
 
     public String getEmail() {
@@ -57,7 +42,7 @@ public class User implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? null : email.trim();
     }
 
     public String getPassword() {
@@ -65,7 +50,7 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
     }
 
     public Date getCreateTime() {
@@ -97,7 +82,7 @@ public class User implements Serializable {
     }
 
     public void setIp(String ip) {
-        this.ip = ip;
+        this.ip = ip == null ? null : ip.trim();
     }
 
     public String getImage() {
@@ -105,6 +90,6 @@ public class User implements Serializable {
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.image = image == null ? null : image.trim();
     }
 }

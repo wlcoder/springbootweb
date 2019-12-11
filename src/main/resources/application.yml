@@ -75,6 +75,15 @@ spring:
     host: localhost
     username: guest
     password: guest
+#    邮件配置
+  mail:
+    host: smtp.qq.com
+    username: 1608550717@qq.com
+    password:
+    default-encoding: UTF-8
+mail:
+  fromMail:
+    addr: 1608550717@qq.com
 
 #配置mybatis
 mybatis:

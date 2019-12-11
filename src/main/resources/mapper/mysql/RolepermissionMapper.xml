@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.mysql.RolepermissionMapper">
+    <resultMap id="BaseResultMap" type="com.example.springboot.entity.Rolepermission">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="rid" jdbcType="BIGINT" property="rid"/>
+        <result column="pid" jdbcType="BIGINT" property="pid"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, rid, pid
+  </sql>
+
+</mapper>

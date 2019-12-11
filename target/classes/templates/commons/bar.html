@@ -8,11 +8,11 @@
 <!--topbar-->
 <nav class="navbar navbar-dark sticky-top bg-info flex-md-nowrap p-0" th:fragment="topbar">
     <p style="padding-left: 30px;font-size: 20px;margin-top: 3px">
-    [[${session.loginUser}]]
+        [[${session.loginUser}]]
     </p>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" style="color: #ffc107" href="#" th:href="@{/user/loginout}">退出</a>
+            <a class="nav-link" style="color: #ffc107" href="#" th:href="@{/loginout}">退出</a>
         </li>
     </ul>
 </nav>
@@ -41,17 +41,21 @@
                      </svg>
                      Orders
                  </a>
-             </li>
-             <li class="nav-item">
-                 <a class="nav-link" href="http://getbootstrap.com/docs/4.0/examples/dashboard/#">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
-                         <circle cx="9" cy="21" r="1"></circle>
-                         <circle cx="20" cy="21" r="1"></circle>
-                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                     </svg>
-                     Products
-                 </a>
              </li>-->
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/user/queryUser}"
+                   th:class="${activeUri=='user'?'nav-link active':'nav-link'}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-users">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    用户管理
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link active" href="#" th:href="@{/emps}"
                    th:class="${activeUri=='emps'?'nav-link active':'nav-link'}">

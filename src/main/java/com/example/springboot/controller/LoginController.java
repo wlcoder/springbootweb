@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/user")
 public class LoginController {
     @Autowired
     private UserService userService;
@@ -28,6 +27,7 @@ public class LoginController {
                         Map<String, Object> map, HttpSession session) {
         if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
             User user = userService.getUser(username, password);
+            System.out.println("123=====================");
             if (null != user) {
                 //登陆成功到主页
                 String sessionId = session.getId();
@@ -39,7 +39,7 @@ public class LoginController {
                 session.setAttribute("loginUser", username);
 
                 //sessionId 放入redis中
-                redisUtil.set("sessionId",session.getId());
+                redisUtil.set("sessionId", session.getId());
                 //将用户保存进redis 测试
                 redisUtil.set("user", user);
                 System.out.println("redis中保存的user:" + redisUtil.get("user"));

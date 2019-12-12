@@ -9,34 +9,10 @@
     <title>springboot</title>
     <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
     <link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
-    <style type="text/css">
-        @-webkit-keyframes chartjs-render-animation {
-            from {
-                opacity: 0.99
-            }
-            to {
-                opacity: 1
-            }
-        }
-
-        @keyframes chartjs-render-animation {
-            from {
-                opacity: 0.99
-            }
-            to {
-                opacity: 1
-            }
-        }
-
-        .chartjs-render-monitor {
-            -webkit-animation: chartjs-render-animation 0.001s;
-            animation: chartjs-render-animation 0.001s;
-        }
-    </style>
 </head>
+
 <body>
 <!--引入抽取的topbar-->
-<!--模板名：会使用thymeleaf的前后缀配置规则进行解析-->
 <div th:replace="commons/bar::topbar"></div>
 
 <div class="container-fluid">
@@ -44,7 +20,9 @@
         <!--引入侧边栏-->
         <div th:replace="commons/bar::#sidebar(activeUri='user')"></div>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <h2><a class="btn btn-sm btn-success" href="emp" th:href="@{/}">用户添加</a></h2>
+            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#userModal">用户添加</button>
+            <!--<button type="btn btn-sm btn-success" class="btn btn-primary">搜索</button>-->
+            <p></p>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
@@ -95,11 +73,75 @@
     </div>
 </div>
 
+<!-- 模态框（Modal） -->
+<form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+         aria-hidden="true"
+         data-backdrop="static" data-keyboard="false"><!--控制点击模态框之外不消失-->
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:500px;">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="userModalLabel">
+                        新增用户
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>姓名：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="username" value=""
+                                       placeholder="请输入姓名"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>密码：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="password" value=""
+                                       placeholder="请输入密码"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>昵称：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="nickname" value=""
+                                       placeholder="请输入昵称"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>邮箱：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="email" value=""
+                                       placeholder="请输入邮箱"/></label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer" style="margin: auto">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 <div class="form-group">
     <div class="col-sm-2 control-label">
         <a href="/toAdd" th:href="@{/toAdd}" class="btn btn-info">add</a>
     </div>
 </div>
+
 
 <div class="modal-footer">
     <ul class="pagination pull-right no-margin">
@@ -126,11 +168,6 @@
 <script type="text/javascript" src="asserts/js/bootstrap.min.js"
         th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.js}"></script>
 
-<!-- Icons -->
-<script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
-<script>
-    feather.replace()
-</script>
 <script>
     $(".deleteBtn").click(function () {
         //删除当前员工的

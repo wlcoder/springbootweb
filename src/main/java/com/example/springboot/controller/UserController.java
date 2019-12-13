@@ -8,8 +8,11 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +40,14 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/addUser")
-    public User addUser(@RequestBody User user) {
+    public User addUser(@RequestBody User user, HttpServletRequest request) {
+        String ip = request.getRemoteAddr();
+        // String ip1 = request.getHeader("X-Forwarded-For");通过代理获取ip
+        if (!StringUtils.isEmpty(ip) && "0:0:0:0:0:0:0:1".equals(ip)) {
+            ip = "127.0.0.1";
+        }
+        user.setIp(ip);
+        user.setCreateTime(new Date());
         userService.saveUser(user);
         return user;
     }

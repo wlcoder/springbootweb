@@ -9,10 +9,6 @@
     <title>springboot</title>
     <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
     <link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
-    <!--validate验证表单插件-->
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
-    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
 </head>
 
 <body>
@@ -63,7 +59,7 @@
                                th:onclick="'javascript: update('+${user.id}+')'">编辑</a>
                             <a class="btn btn-sm btn-danger deleteBtn" th:href="@{/user/deleteUser}+${user.id}">删除</a>
                             <a class="btn btn-sm btn-warning deleteBtn" th:href="@{/user/disableUser}+${user.id}">禁用</a>
-                            <a  class="btn btn-sm btn-success" th:href="@{/user/enableUser}+${user.id}">启用</a>
+                            <a class="btn btn-sm btn-success" th:href="@{/user/enableUser}+${user.id}">启用</a>
 
                         </td>
                     </tr>

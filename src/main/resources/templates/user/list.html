@@ -9,6 +9,10 @@
     <title>springboot</title>
     <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
     <link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+    <!--validate验证表单插件-->
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
 </head>
 
 <body>
@@ -20,7 +24,9 @@
         <!--引入侧边栏-->
         <div th:replace="commons/bar::#sidebar(activeUri='user')"></div>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#userModal">用户添加</button>
+            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#userModal" onclick="setUrl()">
+                用户添加
+            </button>
             <!--<button type="btn btn-sm btn-success" class="btn btn-primary">搜索</button>-->
             <p></p>
             <div class="table-responsive">
@@ -29,6 +35,7 @@
                     <tr>
                         <th>id</th>
                         <th>姓名</th>
+                        <th>密码</th>
                         <th>昵称</th>
                         <th>邮箱</th>
                         <th>图像</th>
@@ -43,6 +50,7 @@
                     <tr th:each="user:${pageInfo.list}">
                         <td th:text="${user.id}"></td>
                         <td th:text="${user.username}"></td>
+                        <td th:text="${user.password}"></td>
                         <td th:text="${user.nickname}"></td>
                         <td th:text="${user.email}"></td>
                         <td th:text="${user.image}"></td>
@@ -51,16 +59,12 @@
                         <td th:text="${#dates.format(user.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td th:text="${#dates.format(user.lastLoginTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
-                            <a class="btn btn-sm btn-primary" th:href="@{/user/}+${user.id}">编辑</a>
-                            <button th:attr="del_uri=@{/user/deleteUser}+${user.id}"
-                                    class="btn btn-sm btn-danger deleteBtn">删除
-                            </button>
-                            <button th:attr="del_uri=@{/user/disableUser}+${user.id}"
-                                    class="btn btn-sm btn-warning deleteBtn">禁用
-                            </button>
-                            <button th:attr="del_uri=@{/user/enableUser}+${user.id}"
-                                    class="btn btn-sm btn-primary">启用
-                            </button>
+                            <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userModal"
+                               th:onclick="'javascript: update('+${user.id}+')'">编辑</a>
+                            <a class="btn btn-sm btn-danger deleteBtn" th:href="@{/user/deleteUser}+${user.id}">删除</a>
+                            <a class="btn btn-sm btn-warning deleteBtn" th:href="@{/user/disableUser}+${user.id}">禁用</a>
+                            <a  class="btn btn-sm btn-success" th:href="@{/user/enableUser}+${user.id}">启用</a>
+
                         </td>
                     </tr>
                     </tbody>
@@ -82,7 +86,7 @@
             <div class="modal-content" style="width:500px;">
                 <div class="modal-header">
                     <h4 class="modal-title" id="userModalLabel">
-                        新增用户
+                        用户信息
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
@@ -90,12 +94,13 @@
                 </div>
 
                 <div class="modal-body">
+                    <input type="text" id="userID" name="id" hidden>
                     <div class="form-group">
                         <div>
                             <label class="form-inline"/>姓名：
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" style="width:100%;" name="username" value=""
-                                       placeholder="请输入姓名"/></label>
+                                <input type="text" class="form-control" style="width:100%;" id="username"
+                                       name="username" placeholder="请输入姓名"/></label>
                             </div>
                         </div>
                     </div>
@@ -103,8 +108,8 @@
                         <div>
                             <label class="form-inline"/>密码：
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" style="width:100%;" name="password" value=""
-                                       placeholder="请输入密码"/></label>
+                                <input type="text" class="form-control" style="width:100%;" name="password"
+                                       id="password" placeholder="请输入密码"/></label>
                             </div>
                         </div>
                     </div>
@@ -112,8 +117,8 @@
                         <div>
                             <label class="form-inline"/>昵称：
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" style="width:100%;" name="nickname" value=""
-                                       placeholder="请输入昵称"/></label>
+                                <input type="text" class="form-control" style="width:100%;" name="nickname"
+                                       id="nickname" placeholder="请输入昵称"/></label>
                             </div>
                         </div>
                     </div>
@@ -121,16 +126,16 @@
                         <div>
                             <label class="form-inline"/>邮箱：
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" style="width:100%;" name="email" value=""
+                                <input type="text" class="form-control" style="width:100%;" name="email" id="email"
                                        placeholder="请输入邮箱"/></label>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer" style="margin: auto">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary">提交</button>
+                    <button type="button" class="btn btn-primary" onclick="checkForm();">提交</button>
+                    <span id="tip"></span>
                 </div>
             </div>
         </div>
@@ -141,7 +146,6 @@
         <a href="/toAdd" th:href="@{/toAdd}" class="btn btn-info">add</a>
     </div>
 </div>
-
 
 <div class="modal-footer">
     <ul class="pagination pull-right no-margin">
@@ -156,7 +160,6 @@
         </div>
     </ul>
 </div>
-
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -174,6 +177,71 @@
         $("#deleteUserForm").attr("action", $(this).attr("del_uri")).submit();
         return false;
     });
+
+    var myUrl;
+
+    //编辑
+    function update(id) {
+        myUrl = '/user/updateUser';
+        $.ajax({
+            url: "/user/toUpdateUser",
+            data: {"id": id},
+            type: "post",
+            success: function (data) {
+                if (data) {
+                    var user = data.user;
+                    //赋值
+                    $('#userID').val(user.id);
+                    $('#username').val(user.username);
+                    $('#password').val(user.password);
+                    $('#nickname').val(user.nickname);
+                    $('#email').val(user.email);
+                    //在修改用户信息时，username不可修改
+                    $('#username').attr("readonly", "readonly");
+                }
+            }
+        });
+    }
+
+    //添加用户：1.修改提交表单的URL 2.将username的readonly属性移除 3.清空表单数据
+    function setUrl() {
+        myUrl = '/user/addUser';
+        $('#username').removeAttr("readonly");
+        $('#form-data input').val("");
+    }
+
+    //提交表单
+    function checkForm() {
+        var user = {};
+        user.username = $('#username').val();
+        user.password = $('#password').val();
+        user.nickname = $('#nickname').val();
+        user.email = $('#email').val();
+        $.ajax({
+            url: myUrl,
+            data: JSON.stringify(user),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            async: false,
+            timeout: 50000,
+            success: function (data) {
+                debugger;
+                if (data != null || data != undefined) {
+                    location.reload();
+                    alert("操作成功！");
+                    $('#tip').html('<span style="color: green">操作成功！</span>');
+                } else {
+                    $('#tip').html('<span style="color: red">操作失败，请重试</span>');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("出错了");
+            }
+        });
+    }
+
+
 </script>
 </body>
 </html>

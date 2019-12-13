@@ -8,12 +8,11 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -36,20 +35,23 @@ public class UserController {
     /*
      * 新增用户
      */
+    @ResponseBody
     @RequestMapping(value = "/addUser")
-    public String addUser(@RequestBody User user) {
+    public User addUser(@RequestBody User user) {
         userService.saveUser(user);
-        return "redirect:/queryUser";
+        return user;
     }
 
     /*
      * 跳转到修改页面
      */
-    @RequestMapping("/user/{id}")
-    public String toEditPage(@PathVariable("id") Long id, Model model) {
+    @ResponseBody
+    @RequestMapping("/toUpdateUser")
+    public Map toEditPage(@RequestParam("id") Long id) {
         User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "user/add";
+        Map<String, User> map = new HashMap<>();
+        map.put("user", user);
+        return map;
     }
 
     /*

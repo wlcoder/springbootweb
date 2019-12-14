@@ -8,6 +8,42 @@
     </resultMap>
     <sql id="Base_Column_List">
     id, name, url
-  </sql>
+    </sql>
+
+    <select id="getPermission" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from permission
+        where id = #{id}
+    </select>
+
+    <select id="getAllPermission" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from permission
+    </select>
+
+    <insert id="savePermission" parameterType="com.example.springboot.entity.Permission">
+      insert into permission (name, url)
+      values (#{name},#{url})
+    </insert>
+
+    <update id="updatePermission" parameterType="com.example.springboot.entity.Permission">
+        update permission
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="url != null">
+                url = #{url}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delPermission" parameterType="java.lang.Long">
+        delete from permission where id = #{id}
+    </delete>
+
 
 </mapper>

@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, transactionManager = "mysqlTransactionManager")
     public void updatePwd(User user) {
         if (null == user.getId() || null == user.getPassword() || null == user.getNewpwd() || null == user.getRenewpwd()) {
             throw new BaseException("信息为空！");

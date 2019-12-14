@@ -1,10 +1,10 @@
-package com.example.springboot.mapper.mysql;
+package com.example.springboot.service;
 
 import com.example.springboot.entity.Permission;
 
 import java.util.List;
 
-public interface PermissionMapper {
+public interface PermissionService {
 
     List<Permission> getAllPermission();
 
@@ -15,5 +15,4 @@ public interface PermissionMapper {
     void updatePermission(Permission permission);
 
     void delPermission(Long id);
-
 }

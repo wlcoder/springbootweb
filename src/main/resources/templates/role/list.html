@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>springboot</title>
+    <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+    <link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+</head>
+
+<body>
+<!--引入抽取的topbar-->
+<div th:replace="commons/bar::topbar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--引入侧边栏-->
+        <div th:replace="commons/bar::#sidebar(activeUri='role')"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#roleModal" onclick="setUrl()">
+                角色添加
+            </button>
+            <!--<button type="btn btn-sm btn-success" class="btn btn-primary">搜索</button>-->
+            <p></p>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th th:width="100">id</th>
+                        <th th:width="200">角色名称</th>
+                        <th th:width="200">角色类型</th>
+                        <th th:width="300">角色描述</th>
+                        <th th:width="100">状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="role:${pageInfo.list}">
+                        <td th:text="${role.id}"></td>
+                        <td th:text="${role.type}"></td>
+                        <td th:text="${role.name}"></td>
+                        <td th:text="${role.description}"></td>
+                        <td th:text="${role.status}==0?'禁用':'启用'"></td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#roleModal"
+                               th:onclick="'javascript: update('+${role.id}+')'">编辑
+                            </a>
+                            <button class="btn btn-sm btn-danger deleteBtn"
+                                    th:onclick="'javascript: delete_role('+${role.id}+')'">删除
+                            </button>
+                            <button class="btn btn-sm btn-warning"
+                                    th:onclick="'javascript: disable_role('+${role.id}+',0)'">禁用
+                            </button>
+                            <button class="btn btn-sm btn-success"
+                                    th:onclick="'javascript: disable_role('+${role.id}+',1)'">启用
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- 模态框（角色信息） -->
+<form method="post" name="role" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
+    <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel"
+         aria-hidden="true"
+         data-backdrop="static" data-keyboard="false"><!--控制点击模态框之外不消失-->
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:500px;">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="roleModalLabel">
+                        角色信息
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="text" id="roleID" name="id" hidden>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>角色名称：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" id="name"
+                                       name="name" placeholder="请输入角色名称"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>角色类型：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="type"
+                                       id="type" placeholder="请输入角色类型"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>角色描述：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="description"
+                                       id="description" placeholder="请输入角色描述"/></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" style="margin: auto">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="submitForm();">提交</button>
+                        <span id="tip"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--分页信息-->
+<div class="modal-footer">
+    <ul class="pagination pull-right no-margin">
+        <div>
+            <a class="allpage"><b th:text="'当前第 '+ ${pageInfo.pageNum}+ ' 页'"></b></a>
+            <a class="allpage"><b th:text="'共 '+ ${pageInfo.pages}+ ' 页'"></b></a>
+            <a class="allpage"><b th:text="'共 '+ ${pageInfo.total}+ ' 条'"></b></a>
+            <a th:href="@{/role/queryRole}">首页</a>
+            <a th:href="@{/role/queryRole(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+            <a th:href="@{/role/queryRole(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+            <a th:href="@{/role/queryRole(pageNum=${pageInfo.pages})}">尾页</a>
+        </div>
+    </ul>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js"
+        th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+<script type="text/javascript" src="asserts/js/popper.min.js"
+        th:src="@{/webjars/popper.js/1.11.1/dist/popper.js}"></script>
+<script type="text/javascript" src="asserts/js/bootstrap.min.js"
+        th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.js}"></script>
+
+<script>
+    var myUrl;
+
+    function setUrl() {
+        myUrl = '/role/addRole';
+        $('#name').removeAttr("readonly");
+        $('#form-data input').val("");
+    }
+
+    //编辑
+    function update(id) {
+        myUrl = '/role/updateRole';
+        $.ajax({
+            url: "/role/toUpdateRole",
+            data: {"id": id},
+            type: "post",
+            success: function (data) {
+                if (data) {
+                    var role = data.role;
+                    //赋值
+                    $('#roleID').val(role.id);
+                    $('#name').val(role.name);
+                    $('#type').val(role.type);
+                    $('#description').val(role.description);
+                    //在修改角色信息时，角色名称不可修改
+                    $('#name').attr("readonly", "readonly");
+                }
+            }
+        });
+    }
+
+    //提交表单
+    function submitForm() {
+        var role = {};
+        role.id = $('#roleID').val();
+        role.name = $('#name').val();
+        role.type = $('#type').val();
+        role.description = $('#description').val();
+        $.ajax({
+            url: myUrl,
+            data: JSON.stringify(role),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            async: false,
+            timeout: 50000,
+            success: function (data) {
+                if (data != null && data.msg == 'success') {
+                    location.reload();
+                    alert("操作成功！");
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("出错了");
+            }
+        });
+    }
+
+    //删除
+    function delete_role(id) {
+        $.ajax({
+            url: '/role/deleteRole',
+            data: {"id": id},
+            type: "post",
+            success: function (data) {
+                location.reload();
+                alert("删除成功！");
+            }
+        });
+    }
+
+    //禁用,启用
+    function disable_role(id, status) {
+        $.ajax({
+            url: '/role/updateStatus',
+            data: {'id': id, 'status': status},
+            type: "post",
+            success: function (data) {
+                location.reload();
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

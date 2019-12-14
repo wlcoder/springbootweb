@@ -12,6 +12,10 @@ public class Role implements Serializable {
 
     private String type;
 
+    private String description;
+
+    private Long status;
+
     public Long getId() {
         return id;
     }
@@ -33,6 +37,22 @@ public class Role implements Serializable {
     }
 
     public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
     }
 }

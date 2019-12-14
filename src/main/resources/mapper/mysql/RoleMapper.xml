@@ -5,6 +5,8 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="status" jdbcType="BIGINT" property="status"/>
     </resultMap>
 
     <select id="getRole" resultMap="BaseResultMap">
@@ -16,7 +18,7 @@
     </select>
 
     <insert id="saveRole" parameterType="com.example.springboot.entity.Role">
-      insert into role (name, type) values (#{name}, #{type})
+      insert into role (name, type,description) values (#{name},#{type}, #{description})
     </insert>
 
     <update id="updateRole" parameterType="com.example.springboot.entity.Role">
@@ -26,7 +28,10 @@
                 name = #{name},
             </if>
             <if test="type != null">
-                type = #{type}
+                type = #{type},
+            </if>
+            <if test="description != null">
+                description = #{description}
             </if>
         </set>
         where id = #{id}
@@ -35,6 +40,14 @@
     <delete id="delRole" parameterType="java.lang.Long">
         delete from role where id = #{id}
     </delete>
+
+    <update id="updataStatus" parameterType="java.lang.Long">
+        update role
+        <set>
+            status =#{status}
+        </set>
+        where id = #{id}
+    </update>
 
 
 </mapper>

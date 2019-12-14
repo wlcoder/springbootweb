@@ -4,6 +4,7 @@ import com.example.springboot.entity.User;
 import com.example.springboot.mapper.mysql.UserMapper;
 import com.example.springboot.service.UserService;
 import com.example.springboot.util.exception.BaseException;
+import com.example.springboot.util.md5.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,5 +67,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updataStatus(Long id, Long status) {
         userMapper.updataStatus(id, status);
+    }
+
+    @Override
+    public void updatePwd(User user) {
+        if (null == user.getId() || null == user.getPassword() || null == user.getNewpwd() || null == user.getRenewpwd()) {
+            throw new BaseException("信息为空！");
+        }
+        User u = userMapper.getUserById(user.getId());
+        if (null == u) {
+            throw new BaseException("该用户不存在！");
+        } else {
+            if (!u.getPassword().equals(Md5Util.getMD5(user.getPassword()))) {
+                throw new BaseException("原密码输入错误！");
+            } else if (user.getNewpwd().equals(user.getPassword())) {
+                throw new BaseException("原密码与新密码一致！");
+            } else if (!user.getNewpwd().equals(user.getRenewpwd())) {
+                throw new BaseException("两次密码输入不一致！");
+            } else {
+                userMapper.updatePwd(user.getId(), Md5Util.getMD5(user.getNewpwd()));
+            }
+        }
     }
 }

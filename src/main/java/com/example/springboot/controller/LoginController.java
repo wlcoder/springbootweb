@@ -2,6 +2,7 @@ package com.example.springboot.controller;
 
 import com.example.springboot.entity.User;
 import com.example.springboot.service.UserService;
+import com.example.springboot.util.md5.Md5Util;
 import com.example.springboot.util.redis.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,8 @@ public class LoginController {
                         @RequestParam("password") String password,
                         Map<String, Object> map, HttpSession session) {
         if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
-            User user = userService.getUser(username, password);
-            System.out.println("123=====================");
+            String pwd = Md5Util.getMD5(password);
+            User user = userService.getUser(username, pwd);
             if (null != user) {
                 //登陆成功到主页
                 String sessionId = session.getId();

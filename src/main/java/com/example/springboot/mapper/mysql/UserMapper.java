@@ -25,4 +25,6 @@ public interface UserMapper {
 
     void updataStatus(@Param("id") Long id, @Param("status") Long status);
 
+    void updatePwd(@Param("id") Long id, @Param("password") String password);
+
 }

@@ -94,4 +94,12 @@
         where id = #{id}
     </update>
 
+    <update id="updatePwd">
+        update user
+        <set>
+            password = #{password}
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

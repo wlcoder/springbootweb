@@ -27,6 +27,10 @@ public class User implements Serializable {
 
     private String image;
 
+    private String newpwd;
+
+    private String renewpwd;
+
 
     public Long getId() {
         return id;
@@ -106,5 +110,21 @@ public class User implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getNewpwd() {
+        return newpwd;
+    }
+
+    public void setNewpwd(String newpwd) {
+        this.newpwd = newpwd;
+    }
+
+    public String getRenewpwd() {
+        return renewpwd;
+    }
+
+    public void setRenewpwd(String renewpwd) {
+        this.renewpwd = renewpwd;
     }
 }

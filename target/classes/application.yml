@@ -8,10 +8,10 @@ spring:
 #配置mysql数据源
   datasource:
     mysql:
-#     指定主数据源
+#     指定主数据源  ?useUnicode=true&characterEncoding=utf8 防止汉字乱码
       primary: true
       name: report
-      url: jdbc:mysql://127.0.0.1:3306/longhui
+      url: jdbc:mysql://127.0.0.1:3306/longhui?useUnicode=true&characterEncoding=utf8
       username: root
       password: root
       driver-class-name: com.mysql.jdbc.Driver

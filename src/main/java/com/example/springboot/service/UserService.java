@@ -19,4 +19,6 @@ public interface UserService {
     void delUser(Long id);
 
     void updataStatus(Long id, Long status);
+
+    void updatePwd(User user);
 }

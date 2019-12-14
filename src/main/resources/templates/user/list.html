@@ -31,7 +31,7 @@
                     <tr>
                         <th th:width="50">id</th>
                         <th th:width="90">姓名</th>
-                        <th th:width="90">密码</th>
+                        <!-- <th th:width="90">密码</th>-->
                         <th th:width="90">昵称</th>
                         <th th:width="120">邮箱</th>
                         <th th:width="100">图像</th>
@@ -46,7 +46,7 @@
                     <tr th:each="user:${pageInfo.list}">
                         <td th:text="${user.id}"></td>
                         <td th:text="${user.username}"></td>
-                        <td th:text="${user.password}"></td>
+                        <!-- <td th:text="${user.password}"></td>-->
                         <td th:text="${user.nickname}"></td>
                         <td th:text="${user.email}"></td>
                         <td th:text="${user.image}"></td>
@@ -67,6 +67,9 @@
                             <button class="btn btn-sm btn-success"
                                     th:onclick="'javascript: disable_user('+${user.id}+',1)'">启用
                             </button>
+                            <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#pwdModal"
+                               th:onclick="'javascript: setId('+${user.id}+')'">重置密码
+                            </a>
                         </td>
                     </tr>
                     </tbody>
@@ -76,7 +79,7 @@
     </div>
 </div>
 
-<!-- 模态框（Modal） -->
+<!-- 模态框（用户信息） -->
 <form method="post" name="user" class="form-horizontal" role="form" id="form-data" style="margin: 20px;">
     <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
          aria-hidden="true"
@@ -104,7 +107,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div>
+                        <div id="pass_word">
                             <label class="form-inline"/>密码：
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" style="width:100%;" name="password"
@@ -141,6 +144,62 @@
     </div>
 </form>
 
+<!-- 模态框（密码重置） -->
+<form method="post" name="user" class="form-horizontal" role="form" id="form-pwd" style="margin: 20px;">
+    <div class="modal fade" id="pwdModal" tabindex="-1" role="dialog" aria-labelledby="pwdModalLabel" aria-hidden="true"
+         data-backdrop="static" data-keyboard="false"><!--控制点击模态框之外不消失-->
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:500px;">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="pwdModalLabel">
+                        密码重置
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="text" id="id" name="id" hidden>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>原密码&nbsp&nbsp&nbsp：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="oldpwd"
+                                       id="pwd_old" placeholder="请输入原密码"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>新密码&nbsp&nbsp&nbsp：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="newpwd"
+                                       id="pwd_new" placeholder="请输入新密码"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>密码确认：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="renewpad"
+                                       id="pwd_renew" placeholder="请再次输入新密码"/></label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer" style="margin: auto">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="submit_pwd();">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
 <!--分页信息-->
 <div class="modal-footer">
     <ul class="pagination pull-right no-margin">
@@ -173,6 +232,7 @@
     function setUrl() {
         myUrl = '/user/addUser';
         $('#username').removeAttr("readonly");
+        $('#pass_word').removeAttr("hidden");
         $('#form-data input').val("");
     }
 
@@ -194,6 +254,7 @@
                     $('#email').val(user.email);
                     //在修改用户信息时，username不可修改
                     $('#username').attr("readonly", "readonly");
+                    $('#pass_word').attr("hidden", "hidden");
                 }
             }
         });
@@ -216,7 +277,6 @@
             async: false,
             timeout: 50000,
             success: function (data) {
-                debugger;
                 if (data != null && data.msg == 'success') {
                     location.reload();
                     alert("操作成功！");
@@ -251,6 +311,40 @@
             type: "post",
             success: function (data) {
                 location.reload();
+            }
+        });
+    }
+
+    //密码修改设置ID
+    function setId(id) {
+        $('#form-pwd input').val("");
+        $('#id').val(id);
+    }
+
+    //密码修改
+    function submit_pwd() {
+        var user = {};
+        user.id = $('#id').val();
+        user.password = $('#pwd_old').val();
+        user.newpwd = $('#pwd_renew').val();
+        user.renewpwd = $('#pwd_renew').val();
+        $.ajax({
+            url: '/user/updatePwd',
+            data: JSON.stringify(user),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            async: false,
+            success: function (data) {
+                if (data != null && data.msg == 'success') {
+                    location.reload();
+                    alert("操作成功！");
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("出错了");
             }
         });
     }

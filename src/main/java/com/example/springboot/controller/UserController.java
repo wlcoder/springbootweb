@@ -3,6 +3,7 @@ package com.example.springboot.controller;
 import com.example.springboot.entity.User;
 import com.example.springboot.service.UserService;
 import com.example.springboot.util.exception.BaseException;
+import com.example.springboot.util.md5.Md5Util;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -54,6 +55,7 @@ public class UserController {
             }
             user.setIp(ip);
             user.setCreateTime(new Date());
+            user.setPassword(Md5Util.getMD5(user.getPassword()));
             userService.saveUser(user);
             map.put("msg", "success");
         } catch (BaseException e) {
@@ -112,6 +114,23 @@ public class UserController {
     public String updateStatus(Long id, Long status) {
         userService.updataStatus(id, status);
         return "success";
+    }
+
+    /*
+     * 密码修改
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updatePwd")
+    public Map updatePwd(@RequestBody User user) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            userService.updatePwd(user);
+            map.put("msg", "success");
+        } catch (BaseException e) {
+            map.put("msg", e.getMessage());
+            return map;
+        }
+        return map;
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.springboot.controller;
 
 import com.example.springboot.entity.User;
 import com.example.springboot.service.UserService;
+import com.example.springboot.util.exception.BaseException;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -28,7 +29,7 @@ public class UserController {
      */
     @RequestMapping(value = "/queryUser")
     public String queryUser(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
-        Page page = PageHelper.startPage(pageNum, 5);
+        Page page = PageHelper.startPage(pageNum, 5, "id desc");
         List<User> userList = userService.getAllUser();
         PageInfo pageInfo = new PageInfo<>(page.getResult());
         model.addAttribute("pageInfo", pageInfo);
@@ -40,16 +41,26 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/addUser")
-    public User addUser(@RequestBody User user, HttpServletRequest request) {
-        String ip = request.getRemoteAddr();
-        // String ip1 = request.getHeader("X-Forwarded-For");通过代理获取ip
-        if (!StringUtils.isEmpty(ip) && "0:0:0:0:0:0:0:1".equals(ip)) {
-            ip = "127.0.0.1";
+    public Map addUser(@RequestBody User user, HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            if (null == user) {
+                throw new BaseException("用户信息为空！");
+            }
+            String ip = request.getRemoteAddr();
+            // String ip1 = request.getHeader("X-Forwarded-For");通过代理获取ip
+            if (!StringUtils.isEmpty(ip) && "0:0:0:0:0:0:0:1".equals(ip)) {
+                ip = "127.0.0.1";
+            }
+            user.setIp(ip);
+            user.setCreateTime(new Date());
+            userService.saveUser(user);
+            map.put("msg", "success");
+        } catch (BaseException e) {
+            map.put("msg", e.getMessage());
+            return map;
         }
-        user.setIp(ip);
-        user.setCreateTime(new Date());
-        userService.saveUser(user);
-        return user;
+        return map;
     }
 
     /*
@@ -68,19 +79,39 @@ public class UserController {
      * 修改用户
      *
      */
+    @ResponseBody
     @RequestMapping(value = "/updateUser")
-    public String updateUser(@RequestBody User user) {
-        userService.updateUser(user);
-        return "redirect:/queryUser";
+    public Map updateUser(@RequestBody User user) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            if (null == user) {
+                throw new BaseException("用户信息为空！");
+            }
+            userService.updateUser(user);
+            map.put("msg", "success");
+        } catch (BaseException e) {
+            map.put("msg", e.getMessage());
+            return map;
+        }
+        return map;
     }
 
     /*
      * 删除用户
-     * */
-    @RequestMapping(value = "/deleteUser/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
+     */
+    @RequestMapping(value = "/deleteUser")
+    public String deleteUser(Long id) {
         userService.delUser(id);
-        return "redirect:/queryUser";
+        return "redirect:/user/queryUser";
+    }
+
+    /*
+     * 禁用 、启用
+     */
+    @RequestMapping(value = "/updateStatus")
+    public String updateStatus(Long id, Long status) {
+        userService.updataStatus(id, status);
+        return "success";
     }
 
 }

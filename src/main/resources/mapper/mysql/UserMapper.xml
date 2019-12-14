@@ -30,6 +30,13 @@
         where id = #{id}
     </select>
 
+    <select id="getUserByNickname" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where nickname = #{nickname}
+    </select>
+
     <select id="getAllUser" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -78,5 +85,13 @@
     <delete id="delUser" parameterType="java.lang.Long">
         delete from user where id = #{id}
     </delete>
+
+    <update id="updataStatus" parameterType="java.lang.Long">
+        update user
+        <set>
+            status =#{status}
+        </set>
+        where id = #{id}
+    </update>
 
 </mapper>

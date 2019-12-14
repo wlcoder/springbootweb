@@ -13,6 +13,8 @@ public interface UserMapper {
 
     User getUserById(Long id);
 
+    User getUserByNickname(String nickname);
+
     User getUser(@Param("username") String username, @Param("password") String password);
 
     void saveUser(User user);
@@ -20,4 +22,7 @@ public interface UserMapper {
     void updateUser(User user);
 
     void delUser(Long id);
+
+    void updataStatus(@Param("id") Long id, @Param("status") Long status);
+
 }

@@ -1,5 +1,5 @@
 # springbootweb
-springboot +thymeleaf  
+springboot + thymeleaf + bootstarp
 项目练习。。。  
 
 新增generatorConfig逆向工程；  
@@ -13,5 +13,8 @@ springboot +thymeleaf
 新增redis缓存；  
 新增mysql,oracle双数据源；  
 新增RabbitMq测试；  
+新增用户模块：新增，编辑，查询，删除，启用禁用，重置密码；  
+新增角色模块：新增，编辑，查询，删除，启用禁用；  
+
   
 

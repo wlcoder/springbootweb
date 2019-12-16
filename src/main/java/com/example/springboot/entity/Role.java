@@ -16,6 +16,8 @@ public class Role implements Serializable {
 
     private Long status;
 
+    private Boolean checked = false;
+
     public Long getId() {
         return id;
     }
@@ -54,5 +56,13 @@ public class Role implements Serializable {
 
     public void setStatus(Long status) {
         this.status = status;
+    }
+
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
     }
 }

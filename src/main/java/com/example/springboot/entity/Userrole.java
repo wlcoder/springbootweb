@@ -11,6 +11,10 @@ public class Userrole implements Serializable {
     private Long uid;
 
     private Long rid;
+    //角色ID
+    private Long[] rids;
+    //角色名称
+    private String name;
 
     public Integer getId() {
         return id;
@@ -34,5 +38,21 @@ public class Userrole implements Serializable {
 
     public void setRid(Long rid) {
         this.rid = rid;
+    }
+
+    public Long[] getRids() {
+        return rids;
+    }
+
+    public void setRids(Long[] rids) {
+        this.rids = rids;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -1,6 +1,9 @@
 package com.example.springboot.controller;
 
+import com.example.springboot.entity.Role;
 import com.example.springboot.entity.User;
+import com.example.springboot.entity.Userrole;
+import com.example.springboot.service.RoleService;
 import com.example.springboot.service.UserService;
 import com.example.springboot.util.exception.BaseException;
 import com.example.springboot.util.md5.Md5Util;
@@ -14,16 +17,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
+
 
     /*
      * 查询用户
@@ -133,4 +136,84 @@ public class UserController {
         return map;
     }
 
+    /*
+     * 设置角色
+     */
+  /*  @ResponseBody
+    @RequestMapping(value = "/setRole")
+    public Map setRole(Long id) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            //查询所有的角色
+            List<Role> roleList = roleService.getAllRole();
+            //根据用户Id 查询所拥有的角色
+            List<Userrole> userroleList = userService.findRoleByUserId(id);
+            if (null != userroleList && userroleList.size() > 0) {
+                if (null != roleList && roleList.size() > 0) {
+                    for (Role role : roleList) {
+                        for (Userrole userrole : userroleList) {
+                            if (role.getId() == userrole.getRid()) {
+                                role.setChecked(true);
+                            }
+                        }
+                    }
+                }
+            }
+            map.put("roleList", roleList);
+        } catch (BaseException e) {
+            map.put("msg", e.getMessage());
+            return map;
+        }
+        return map;
+    }
+*/
+
+    /*
+     * 跳转到设置角色页面
+     */
+    @RequestMapping(value = "/toSetRole/{id}")
+    public String toSetRole(Model model, @PathVariable("id") Long id) {
+        //查询所有的角色
+        List<Role> roleList = roleService.getAllRole();
+        //查询用户信息
+        User user = userService.getUserById(id);
+        //根据用户Id 查询所拥有的角色
+        List<Userrole> userroleList = userService.findRoleByUserId(id);
+
+        List<String> list = new ArrayList();
+        if (null != userroleList && userroleList.size() > 0) {
+            if (null != roleList && roleList.size() > 0) {
+                for (Role role : roleList) {
+                    for (Userrole userrole : userroleList) {
+                        if (role.getId() == userrole.getRid()) {
+                            role.setChecked(true);
+                        }
+                    }
+                }
+            }
+            //当前用户所拥有的角色名称
+            for (Userrole role : userroleList) {
+                list.add(role.getName());
+            }
+        }
+        String roleName = list.toString();
+        model.addAttribute("roleList", roleList);
+        model.addAttribute("userName", user.getUsername());
+        model.addAttribute("uid", id);
+        model.addAttribute("roleName", roleName);
+        return "user/setRole";
+    }
+
+    @ResponseBody
+    @RequestMapping("/setUserRole")
+    public Map setUserRole(@RequestBody Userrole userrole) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            userService.saveUserrole(userrole);
+            map.put("msg", "success");
+        } catch (BaseException e) {
+            map.put("msg", e.getMessage());
+        }
+        return map;
+    }
 }

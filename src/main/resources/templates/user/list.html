@@ -9,6 +9,9 @@
     <title>springboot</title>
     <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
     <link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-select/2.0.0-beta1/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-select/2.0.0-beta1/css/bootstrap-select.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>
 </head>
 
 <body>
@@ -29,22 +32,22 @@
                 <table class="table table-striped table-sm">
                     <thead>
                     <tr>
-                        <th th:width="50">id</th>
+                        <th th:width="50" hidden="hidden">id</th>
                         <th th:width="90">姓名</th>
                         <!-- <th th:width="90">密码</th>-->
-                        <th th:width="90">昵称</th>
-                        <th th:width="120">邮箱</th>
+                        <th th:width="120">昵称</th>
+                        <th th:width="150">邮箱</th>
                         <th th:width="100">图像</th>
                         <th th:width="50">状态</th>
                         <th th:width="120">ip</th>
-                        <th th:width="150">创建时间</th>
+                        <th th:width="100">创建时间</th>
                         <th th:width="150">最后登陆时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="user:${pageInfo.list}">
-                        <td th:text="${user.id}"></td>
+                        <td th:hidden="hidden" th:text="${user.id}"></td>
                         <td th:text="${user.username}"></td>
                         <!-- <td th:text="${user.password}"></td>-->
                         <td th:text="${user.nickname}"></td>
@@ -52,7 +55,7 @@
                         <td th:text="${user.image}"></td>
                         <td th:text="${user.status}==0?'禁用':'启用'"></td>
                         <td th:text="${user.ip}"></td>
-                        <td th:text="${#dates.format(user.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${#dates.format(user.createTime, 'yyyy-MM-dd')}"></td>
                         <td th:text="${#dates.format(user.lastLoginTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
                             <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userModal"
@@ -70,6 +73,11 @@
                             <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#pwdModal"
                                th:onclick="'javascript: setId('+${user.id}+')'">重置密码
                             </a>
+                            <!--<a class="btn btn-sm btn-info" data-toggle="modal" data-target="#roleModal"
+                               th:onclick="'javascript: set_role('+${user.id}+')'">角色分配
+                            </a>-->
+
+                            <a class="btn btn-sm btn-info" th:href="@{/user/toSetRole/}+${user.id}">角色分配</a>
                         </td>
                     </tr>
                     </tbody>
@@ -199,6 +207,51 @@
     </div>
 </form>
 
+<!-- 模态框（角色分配） -->
+<form method="post" name="user" class="form-horizontal" role="form" id="form-role" style="margin: 20px;">
+    <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel"
+         aria-hidden="true"
+         data-backdrop="static" data-keyboard="false"><!--控制点击模态框之外不消失-->
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:500px;">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="roleModalLabel">
+                        角色分配
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="user_id" name="id" hidden>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>用户名称：
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:100%;" name="uid"
+                                       id="user_name"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>角色名称：
+                            <div class="col-sm-10">
+                                <select id="roleId" name="rid" class="selectpicker form-control" style="width:100%;"
+                                        type="text" multiple data-live-search="true">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="margin: auto">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="submit_role();">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 
 <!--分页信息-->
 <div class="modal-footer">
@@ -224,6 +277,8 @@
         th:src="@{/webjars/popper.js/1.11.1/dist/popper.js}"></script>
 <script type="text/javascript" src="asserts/js/bootstrap.min.js"
         th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.js}"></script>
+
+<script src="https://cdn.bootcss.com/bootstrap-select/2.0.0-beta1/js/bootstrap-select.min.js"></script>
 
 <script>
     var myUrl;
@@ -348,6 +403,83 @@
             }
         });
     }
+
+    //角色设置
+    //查询出所有角色 ，当前用户所拥有的角色
+    function set_role(id) {
+
+        $('#user_id').val(id);
+
+        $(".selectpicker").selectpicker({
+            noneSelectedText: '请选择'    //默认显示内容
+        });
+
+        var uid = $('#user_id').val();
+
+        loadRoledata(id);    //执行此函数，从后台获取数据，拼接成option标签，添加到select的里面
+
+        //初始化刷新数据
+        /* $(window).on('load', function () {
+             $('.selectpicker').selectpicker('refresh');
+         });*/
+
+        /* debugger;
+         $.ajax({
+             url: "/user/setRole",
+             data: {"id": id},
+             type: "post",
+             success: function (data) {
+                 if (data) {
+                     $('#role_data').val(data.roleList);
+                     var roleList = data.roleList;
+                     /!* if (null != roleList && undefined != roleList) {
+                          for (var i = 0; i < roleList.length; i++) {
+                              $('#tr_id').val(i);
+                              $('#ch_box').attr("ckecked", "checked");
+                              $('#role_id').text(roleList[i].id);
+                              $('#role_name').text(roleList[i].name);
+                              $('#role_url').text(roleList[i].url);
+                          }
+                      }*!/
+                 }
+             }
+         });*/
+    }
+
+
+    function loadRoledata(uid) {
+        $.ajax({
+            url: "/user/toSetRole",
+            type: 'post',
+            async: false,
+            data: {"id": uid},
+            success: function (data) {
+                if (data) {
+                    /*var rolenames = [];
+                    for (var i = 0, len = data.roleList.length; i < len; i++) {
+                        var roledata = data.roleList[i];
+                        //拼接成多个<option><option/>
+                        rolenames.push('<option value=' + roledata.id + '>' + roledata.name + '</option>')
+                    }
+                    $("#roleId").html(rolenames.join(' '));
+                    $('#roleId').selectpicker('refresh');
+                    $('#roleId').selectpicker('render');*/
+                    var str = '<option value="">--请选择--</option>';
+                    for (var i = 0; i < data.roleList.length; i++) {
+                        str += '<option value=' + data.roleList[i].id + '>' + data.roleList[i].name + '</option>';
+                    }
+                    $("#roleId").html(str);
+                    $('#roleId').selectpicker('refresh');
+                    $('#roleId').selectpicker('render');
+
+                }
+            },
+            error: function () {
+                alert('查询出错！');
+            }
+        });
+    }
+
 
 </script>
 </body>

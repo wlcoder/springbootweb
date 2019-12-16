@@ -9,5 +9,24 @@
     <sql id="Base_Column_List">
     id, uid, rid
   </sql>
+    <select id="findAllUserrole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_role
+    </select>
+
+    <select id="findRoleByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select ur.id,ur.uid,ur.rid,r.name from user_role ur  LEFT JOIN role  r on ur.rid = r.id
+        where uid = #{uid}
+    </select>
+
+    <insert id="saveUserrole" parameterType="com.example.springboot.entity.Userrole">
+      insert into user_role (uid, rid) values (#{uid},#{rid})
+    </insert>
+
+    <delete id="delUserroleByUserId" parameterType="java.lang.Long">
+        delete from user_role where uid = #{uid}
+    </delete>
+
 
 </mapper>

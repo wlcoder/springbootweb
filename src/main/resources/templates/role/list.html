@@ -29,7 +29,7 @@
                 <table class="table table-striped table-sm">
                     <thead>
                     <tr>
-                        <th th:width="100">id</th>
+                        <th th:hidden="hidden" th:width="100">id</th>
                         <th th:width="200">角色名称</th>
                         <th th:width="200">角色类型</th>
                         <th th:width="300">角色描述</th>
@@ -39,7 +39,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="role:${pageInfo.list}">
-                        <td th:text="${role.id}"></td>
+                        <td th:hidden="hidden" th:text="${role.id}"></td>
                         <td th:text="${role.type}"></td>
                         <td th:text="${role.name}"></td>
                         <td th:text="${role.description}"></td>

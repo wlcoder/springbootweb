@@ -1,7 +1,9 @@
 package com.example.springboot.service.impl;
 
 import com.example.springboot.entity.User;
+import com.example.springboot.entity.Userrole;
 import com.example.springboot.mapper.mysql.UserMapper;
+import com.example.springboot.mapper.mysql.UserroleMapper;
 import com.example.springboot.service.UserService;
 import com.example.springboot.util.exception.BaseException;
 import com.example.springboot.util.md5.Md5Util;
@@ -16,6 +18,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserroleMapper userroleMapper;
 
     @Override
     public List<User> getAllUser() {
@@ -87,6 +91,35 @@ public class UserServiceImpl implements UserService {
                 throw new BaseException("两次密码输入不一致！");
             } else {
                 userMapper.updatePwd(user.getId(), Md5Util.getMD5(user.getNewpwd()));
+            }
+        }
+    }
+
+    /*根据用户Id查询角色*/
+    @Override
+    public List<Userrole> findRoleByUserId(Long id) {
+        return userroleMapper.findRoleByUserId(id);
+    }
+
+    /**
+     * 设置用户角色
+     */
+    @Override
+    public void saveUserrole(Userrole userrole) {
+        if (null == userrole) {
+            throw new BaseException("信息为空");
+        }
+        // 先删除之前拥有的角色
+        List<Userrole> ur = userroleMapper.findRoleByUserId(userrole.getUid());
+        if (null != ur && ur.size() > 0) {
+            userroleMapper.delUserroleByUserId(userrole.getUid());
+        }
+        //再添加角色
+        if (null != userrole.getRids() && userrole.getRids().length > 0) {
+            Long[] rids = userrole.getRids();
+            for (int i = 0; i < rids.length; i++) {
+                userrole.setRid(rids[i]);
+                userroleMapper.saveUserrole(userrole);
             }
         }
     }

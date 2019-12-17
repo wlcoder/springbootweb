@@ -12,6 +12,10 @@ public class Rolepermission implements Serializable {
 
     private Long pid;
 
+    private String name;
+
+    private Long[] pids;
+
     public Integer getId() {
         return id;
     }
@@ -34,5 +38,21 @@ public class Rolepermission implements Serializable {
 
     public void setPid(Long pid) {
         this.pid = pid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long[] getPids() {
+        return pids;
+    }
+
+    public void setPids(Long[] pids) {
+        this.pids = pids;
     }
 }

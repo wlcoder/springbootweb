@@ -1,6 +1,7 @@
 package com.example.springboot.service;
 
 import com.example.springboot.entity.Role;
+import com.example.springboot.entity.Rolepermission;
 
 import java.util.List;
 
@@ -17,4 +18,8 @@ public interface RoleService {
     void delRole(Long id);
 
     void updataStatus(Long id, Long status);
+
+    List<Rolepermission> findPermissionByRoleId(Long id);
+
+    void saveRolepermission(Rolepermission rolepermission);
 }

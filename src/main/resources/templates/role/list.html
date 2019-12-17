@@ -30,8 +30,8 @@
                     <thead>
                     <tr>
                         <th th:hidden="hidden" th:width="100">id</th>
-                        <th th:width="200">角色名称</th>
-                        <th th:width="200">角色类型</th>
+                        <th th:width="250">角色名称</th>
+                        <th th:width="250">角色类型</th>
                         <th th:width="300">角色描述</th>
                         <th th:width="100">状态</th>
                         <th>操作</th>
@@ -57,6 +57,7 @@
                             <button class="btn btn-sm btn-success"
                                     th:onclick="'javascript: disable_role('+${role.id}+',1)'">启用
                             </button>
+                            <a class="btn btn-sm btn-info" th:href="@{/role/toSetPermission/}+${role.id}">权限分配</a>
                         </td>
                     </tr>
                     </tbody>

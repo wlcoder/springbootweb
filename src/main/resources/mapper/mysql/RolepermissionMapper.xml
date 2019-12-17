@@ -10,4 +10,23 @@
     id, rid, pid
   </sql>
 
+    <select id="findAllRolepermission" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role_permission
+    </select>
+
+    <select id="findPermissionByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+       select rp.id,rp.rid ,rp.pid,p.name from role_permission rp  left join  permission  p on rp.pid= p.id
+        where rid = #{rid}
+    </select>
+
+    <insert id="saveRolepermission" parameterType="com.example.springboot.entity.Rolepermission">
+      insert into role_permission (rid, pid) values (#{rid},#{pid})
+    </insert>
+
+    <delete id="delByRoleId" parameterType="java.lang.Long">
+        delete from role_permission where rid = #{rid}
+    </delete>
+
 </mapper>

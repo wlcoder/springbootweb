@@ -204,6 +204,7 @@ public class UserController {
         return "user/setRole";
     }
 
+    //设置角色
     @ResponseBody
     @RequestMapping("/setUserRole")
     public Map setUserRole(@RequestBody Userrole userrole) {
@@ -216,4 +217,20 @@ public class UserController {
         }
         return map;
     }
+
+   /* //根据搜索框查询用户
+    @RequestMapping("/searchUser")
+    public Map searchUser(String name) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            userService.saveUserrole(userrole);
+            map.put("msg", "success");
+        } catch (BaseException e) {
+            map.put("msg", e.getMessage());
+        }
+        return map;
+
+    }*/
+
+
 }

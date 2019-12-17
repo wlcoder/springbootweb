@@ -41,6 +41,13 @@
         select
         <include refid="Base_Column_List"/>
         from user
+        <where>
+            <if test="name != null">
+                username like '%${name}%'
+                or
+                nickname like '%${name}%'
+            </if>
+        </where>
     </select>
 
     <insert id="saveUser" parameterType="com.example.springboot.entity.User">
@@ -101,5 +108,18 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="searchUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            <if test="name != null">
+                username like '%${name}%'
+                or
+                nickname like '%${name}%'
+            </if>
+        </where>
+    </select>
 
 </mapper>

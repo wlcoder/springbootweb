@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserService {
     private UserroleMapper userroleMapper;
 
     @Override
-    public List<User> getAllUser() {
-        return userMapper.getAllUser();
+    public List<User> getAllUser(String name) {
+        return userMapper.getAllUser(name);
     }
 
     @Override
@@ -122,6 +122,12 @@ public class UserServiceImpl implements UserService {
                 userroleMapper.saveUserrole(userrole);
             }
         }
+    }
+
+    //搜索框查询
+    @Override
+    public List<User> searchUser(String name) {
+        return userMapper.searchUser(name);
     }
 
 

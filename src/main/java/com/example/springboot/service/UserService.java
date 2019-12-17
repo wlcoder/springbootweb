@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface UserService {
-    List<User> getAllUser();
+    List<User> getAllUser(String name);
 
     User getUser(String username, String password);
 
@@ -27,4 +27,5 @@ public interface UserService {
 
     void saveUserrole(Userrole userrole);
 
+    List<User> searchUser(String name);
 }

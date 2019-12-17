@@ -33,7 +33,9 @@
                 <div style="float: right">
                      <input type="text" class="form-control" placeholder="请输入用户名或昵称" id="search_user"
                             style="width:250px;height:30px;display:inline;">
+                    <!-- <a th:href="@{/user/searchUser/?name=admin}">-->
                     <button class="btn btn-sm btn-success" style="display:inline" onclick="searchUser()">搜索</button>
+                    <!-- </a>-->
                 </div>
             </div>
             <p></p>
@@ -416,17 +418,12 @@
     //角色设置
     //查询出所有角色 ，当前用户所拥有的角色
     function set_role(id) {
-
         $('#user_id').val(id);
-
         $(".selectpicker").selectpicker({
             noneSelectedText: '请选择'    //默认显示内容
         });
-
         var uid = $('#user_id').val();
-
         loadRoledata(id);    //执行此函数，从后台获取数据，拼接成option标签，添加到select的里面
-
         //初始化刷新数据
         /* $(window).on('load', function () {
              $('.selectpicker').selectpicker('refresh');
@@ -497,12 +494,8 @@
             async: false,
             data: {"name": name},
             success: function (data) {
-                if (data != null && data.msg == 'success') {
-                    location.reload();
-                    alert("操作成功！");
-                } else {
-                    alert(data.msg);
-                }
+                //location.reload();
+                $table.bootstrapTable('load', data.list);
             },
             error: function () {
                 alert('查询出错！');

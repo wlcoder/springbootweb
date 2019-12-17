@@ -32,9 +32,9 @@ public class UserController {
      * 查询用户
      */
     @RequestMapping(value = "/queryUser")
-    public String queryUser(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
+    public String queryUser(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum, String name) {
         Page page = PageHelper.startPage(pageNum, 5, "id desc");
-        List<User> userList = userService.getAllUser();
+        List<User> userList = userService.getAllUser(name);
         PageInfo pageInfo = new PageInfo<>(page.getResult());
         model.addAttribute("pageInfo", pageInfo);
         return "user/list";
@@ -218,19 +218,19 @@ public class UserController {
         return map;
     }
 
-   /* //根据搜索框查询用户
+    //根据搜索框查询用户
+    @ResponseBody
     @RequestMapping("/searchUser")
     public Map searchUser(String name) {
         Map<String, Object> map = new HashMap<>();
         try {
-            userService.saveUserrole(userrole);
-            map.put("msg", "success");
+            List<User> list = userService.searchUser(name);
+            map.put("msg", list);
         } catch (BaseException e) {
             map.put("msg", e.getMessage());
         }
         return map;
-
-    }*/
-
+        // return "redirect:/user/queryUser?name=" + name;
+    }
 
 }

@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SchedulerTask1 {
-    private int count=0;
+    private int count = 0;
 
-   // @Scheduled(cron="* * /5 * * ?")
-    private void process(){
-        System.out.println("this is scheduler task runing  "+(count++));
+    // @Scheduled(cron="* * /5 * * ?")
+    private void process() {
+        System.out.println("this is scheduler task runing  " + (count++));
     }
 }

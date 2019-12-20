@@ -37,7 +37,7 @@ public class DruidConfig {
         //黑名单
         // initParams.put("deny", "192.168.15.21");
         //是否能够重置数据.
-        initParams.put("resetEnable","false");
+        initParams.put("resetEnable", "false");
         bean.setInitParameters(initParams);
         return bean;
     }
@@ -50,7 +50,7 @@ public class DruidConfig {
         bean.setFilter(new WebStatFilter());
         Map<String, String> initParams = new HashMap<>();
         //添加不需要忽略的格式信息
-        initParams.put("exclusions",  "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+        initParams.put("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
         bean.setInitParameters(initParams);
         //添加过滤规则
         bean.setUrlPatterns(Arrays.asList("/*"));

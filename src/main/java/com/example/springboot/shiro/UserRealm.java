@@ -64,7 +64,10 @@ public class UserRealm extends AuthorizingRealm {
         token.setPassword(Md5Util.getMD5(password).toCharArray());
         User user = userService.getUserByUsername(token.getUsername());
         if (null == user) {
-            return null;
+            throw new AuthenticationException();
+        }
+        if (null != user && user.getStatus() == 0) {
+            throw new DisabledAccountException();
         }
         return new SimpleAuthenticationInfo(user, user.getPassword(), "");
     }

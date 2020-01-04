@@ -32,6 +32,8 @@ public class ShiroConfig {
         Map<String, String> filterMap = new LinkedHashMap<>();
         //filterMap.put("/toIndex", "anon");
         filterMap.put("/login", "anon");
+        //登出
+        filterMap.put("/loginout", "logout");
         //访问请求需要相应的权限
         filterMap.put("/*", "authc");
         //修改调整的登录页面

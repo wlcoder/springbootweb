@@ -1,18 +1,16 @@
 package com.example.springboot.controller;
 
-import com.example.springboot.entity.User;
 import com.example.springboot.service.UserService;
-import com.example.springboot.util.md5.Md5Util;
 import com.example.springboot.util.redis.RedisUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 @Controller
 public class LoginController {
@@ -22,7 +20,7 @@ public class LoginController {
     private RedisUtil redisUtil;
 
 
-    @PostMapping(value = "/login")
+  /*  @PostMapping(value = "/login")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
                         Map<String, Object> map, HttpSession session) {
@@ -64,5 +62,46 @@ public class LoginController {
         session.removeAttribute(sessionId);
         session.invalidate();
         return "login";
+    }*/
+
+    @RequestMapping("/toIndex")
+    public String toindex() {
+        return "/dashboard";
     }
+
+    @RequestMapping("/toLogin")
+    public String toLogin() {
+        return "/login";
+    }
+
+    /**
+     * 登录逻辑处理
+     */
+    @RequestMapping("/login")
+    public String login(String username, String password, Model model) {
+        //1.获取Subject
+        Subject subject = SecurityUtils.getSubject();
+        //2.封装用户数据
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        //3.执行登录方法
+        try {
+            subject.login(token);
+            return "redirect:/toIndex";
+        } catch (UnknownAccountException e) {
+            model.addAttribute("msg", "用户名不存在");
+            return "login";
+        } catch (IncorrectCredentialsException e) {
+            model.addAttribute("msg", "密码错误");
+            return "login";
+        }
+    }
+
+    @RequestMapping("/noAuth")
+    public String unauthorizedRole() {
+        System.out.println("------没有权限-------");
+        return "noAuth";
+    }
+
+
+
 }

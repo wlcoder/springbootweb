@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -33,7 +33,7 @@
                  </a>
              </li>
              -->
-            <li class="nav-item">
+            <li class="nav-item" shiro:hasPermission="user_menu">
                 <a class="nav-link" href="#" th:href="@{/user/queryUser}"
                    th:class="${activeUri=='user'?'nav-link active':'nav-link'}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -47,7 +47,7 @@
                     用户管理
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" shiro:hasPermission="role_menu">
                 <a class="nav-link" href="#" th:href="@{/role/queryRole}"
                    th:class="${activeUri=='role'?'nav-link active':'nav-link'}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -60,7 +60,7 @@
                     角色管理
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" shiro:hasPermission="permission_menu">
                 <a class="nav-link" href="#" th:href="@{/permission/queryPermission}"
                    th:class="${activeUri=='permission'?'nav-link active':'nav-link'}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -72,7 +72,7 @@
                     权限管理
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" shiro:hasPermission="emp:queryEmp">
                 <a class="nav-link active" href="#" th:href="@{/emps}"
                    th:class="${activeUri=='emps'?'nav-link active':'nav-link'}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

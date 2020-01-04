@@ -7,6 +7,7 @@ import com.example.springboot.util.exception.BaseException;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ public class RoleController {
     /*
      * 查询角色
      */
+    @RequiresPermissions("role_menu")
     @RequestMapping(value = "/queryRole")
     public String queryRole(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
         Page page = PageHelper.startPage(pageNum, 5, "id desc");

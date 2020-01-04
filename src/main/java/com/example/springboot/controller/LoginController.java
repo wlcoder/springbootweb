@@ -64,14 +64,10 @@ public class LoginController {
         return "login";
     }*/
 
-    @RequestMapping("/toIndex")
-    public String toindex() {
-        return "/dashboard";
-    }
 
     @RequestMapping("/toLogin")
     public String toLogin() {
-        return "/login";
+        return "login";
     }
 
     /**
@@ -86,7 +82,7 @@ public class LoginController {
         //3.执行登录方法
         try {
             subject.login(token);
-            return "redirect:/toIndex";
+            return "index";
         } catch (UnknownAccountException e) {
             model.addAttribute("msg", "用户名不存在");
             return "login";
@@ -101,7 +97,5 @@ public class LoginController {
         System.out.println("------没有权限-------");
         return "noAuth";
     }
-
-
 
 }

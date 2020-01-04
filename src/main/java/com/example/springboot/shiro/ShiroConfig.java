@@ -30,19 +30,14 @@ public class ShiroConfig {
          * role: 该资源必须得到角色权限才可以访问
          */
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/toIndex", "anon");
+        //filterMap.put("/toIndex", "anon");
         filterMap.put("/login", "anon");
         //访问请求需要相应的权限
-//        filterMap.put("/add", "perms[user:add]");
-//        filterMap.put("/update", "perms[user:update]");
-
         filterMap.put("/*", "authc");
-
         //修改调整的登录页面
         shiroFilterFactoryBean.setLoginUrl("/toLogin");
         //设置未授权提示页面
         shiroFilterFactoryBean.setUnauthorizedUrl("/noAuth");
-
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
 

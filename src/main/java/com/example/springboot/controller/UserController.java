@@ -10,6 +10,7 @@ import com.example.springboot.util.md5.Md5Util;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,7 @@ public class UserController {
     /*
      * 查询用户
      */
+    @RequiresPermissions("user_menu")
     @RequestMapping(value = "/queryUser")
     public String queryUser(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum, String name) {
         Page page = PageHelper.startPage(pageNum, 5, "id desc");

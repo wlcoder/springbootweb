@@ -130,5 +130,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.searchUser(name);
     }
 
+    @Override
+    public User getUserByUsername(String username) {
+        return userMapper.getUserByUsername(username);
+    }
+
 
 }

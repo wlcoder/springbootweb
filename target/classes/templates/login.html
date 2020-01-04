@@ -12,7 +12,7 @@
     <link href="asserts/css/signin.css" th:href="@{/asserts/css/signin.css}" rel="stylesheet">
 </head>
 <body class="text-center">
-<form class="form-signin" action="dashboard.html" th:action="@{/login}" method="post">
+<form class="form-signin" action="index.html" th:action="@{/login}" method="post">
     <img class="mb-4" th:src="@{/asserts/img/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt=""
          width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal" th:text="#{login.tip}">Please sign in</h1>
@@ -31,7 +31,7 @@
         </label>
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.btn}">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">© 2017-2020</p>
+    <p class="mt-5 mb-3 text-muted">© 2019-2020</p>
     <a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>
     <a class="btn btn-sm" th:href="@{/index.html(l='en_US')}">English</a>
 </form>

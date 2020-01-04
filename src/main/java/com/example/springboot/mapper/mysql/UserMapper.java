@@ -9,11 +9,13 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    List<User> getAllUser(@Param("name")String name);
+    List<User> getAllUser(@Param("name") String name);
 
     User getUserById(Long id);
 
     User getUserByNickname(String nickname);
+
+    User getUserByUsername(String username);
 
     User getUser(@Param("username") String username, @Param("password") String password);
 
@@ -28,5 +30,6 @@ public interface UserMapper {
     void updatePwd(@Param("id") Long id, @Param("password") String password);
 
     List<User> searchUser(@Param("name") String name);
+
 
 }

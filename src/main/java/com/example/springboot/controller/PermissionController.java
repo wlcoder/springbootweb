@@ -6,6 +6,7 @@ import com.example.springboot.util.exception.BaseException;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ public class PermissionController {
     /*
      * 查询权限
      */
+    @RequiresPermissions("permission_menu")
     @RequestMapping(value = "/queryPermission")
     public String queryPermission(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
         Page page = PageHelper.startPage(pageNum, 5, "id desc");

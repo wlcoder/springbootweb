@@ -30,7 +30,8 @@ public class ShiroConfig {
          * role: 该资源必须得到角色权限才可以访问
          */
         Map<String, String> filterMap = new LinkedHashMap<>();
-        //filterMap.put("/toIndex", "anon");
+        filterMap.put("/static/*", "anon");
+        filterMap.put("/resources/*", "anon");
         filterMap.put("/login", "anon");
         //登出
         filterMap.put("/loginout", "logout");
@@ -66,4 +67,5 @@ public class ShiroConfig {
     public ShiroDialect getShiroDialect() {
         return new ShiroDialect();
     }
+
 }

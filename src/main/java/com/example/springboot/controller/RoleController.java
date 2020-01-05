@@ -104,10 +104,18 @@ public class RoleController {
     /*
      * 禁用 、启用
      */
+    @ResponseBody
     @RequestMapping(value = "/updateStatus")
-    public String updateStatus(Long id, Long status) {
-        roleService.updataStatus(id, status);
-        return "success";
+    public Map<String, Object> updateStatus(Long id, Long status) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            roleService.updataStatus(id, status);
+            map.put("msg", "success");
+        } catch (BaseException e) {
+            map.put("msg", "修改状态失败！");
+            return map;
+        }
+        return map;
     }
 
     /*
@@ -120,12 +128,12 @@ public class RoleController {
         //查询角色信息
         Role role = roleService.getRole(id);
         //根据角色Id 查询所拥有的权限
-        List<Rolepermission> rolepermissionList = roleService.findPermissionByRoleId(id);
+        List<Permission> permissions = roleService.findPermissionByRoleId(id);
         List<String> list = new ArrayList();
-        if (null != rolepermissionList && rolepermissionList.size() > 0) {
-            //当前用户所拥有的角色名称
-            for (Rolepermission rolepermission : rolepermissionList) {
-                list.add(rolepermission.getName());
+        if (null != permissions && permissions.size() > 0) {
+            //当前角色所拥有的权限
+            for (Permission permission : permissions) {
+                list.add(permission.getName());
             }
         }
         String permissionName = list.toString();

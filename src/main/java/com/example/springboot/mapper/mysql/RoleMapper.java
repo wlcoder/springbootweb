@@ -1,5 +1,6 @@
 package com.example.springboot.mapper.mysql;
 
+import com.example.springboot.entity.Permission;
 import com.example.springboot.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,4 +21,6 @@ public interface RoleMapper {
     void delRole(Long id);
 
     void updataStatus(@Param("id") Long id, @Param("status") Long status);
+
+    List<Permission> findPermissionByRoleId(Long id);
 }

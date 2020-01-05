@@ -1,5 +1,6 @@
 package com.example.springboot.service;
 
+import com.example.springboot.entity.Role;
 import com.example.springboot.entity.User;
 import com.example.springboot.entity.Userrole;
 
@@ -23,7 +24,7 @@ public interface UserService {
 
     void updatePwd(User user);
 
-    List<Userrole> findRoleByUserId(Long id);
+    List<Role> findRoleByUserId(Long id);
 
     void saveUserrole(Userrole userrole);
 

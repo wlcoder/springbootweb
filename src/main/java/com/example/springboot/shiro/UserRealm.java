@@ -1,9 +1,6 @@
 package com.example.springboot.shiro;
 
-import com.example.springboot.entity.Permission;
-import com.example.springboot.entity.Rolepermission;
-import com.example.springboot.entity.User;
-import com.example.springboot.entity.Userrole;
+import com.example.springboot.entity.*;
 import com.example.springboot.service.PermissionService;
 import com.example.springboot.service.RoleService;
 import com.example.springboot.service.UserService;
@@ -35,16 +32,14 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         User user = (User) principalCollection.getPrimaryPrincipal();
         if (null != user) {
-            List<Userrole> userroleList = userService.findRoleByUserId(user.getId());
-            if (null != userroleList && userroleList.size() > 0) {
-                for (Userrole userrole : userroleList) {
-                    List<Rolepermission> rolepermissionList = roleService.findPermissionByRoleId(userrole.getRid());
-                    if (null != rolepermissionList && rolepermissionList.size() > 0) {
-                        for (Rolepermission rolepermission : rolepermissionList) {
-                            Permission permission = permissionService.getPermission(rolepermission.getPid());
-                            if (null != permission) {
-                                info.addStringPermission(permission.getUrl());
-                            }
+            List<Role> roleList = userService.findRoleByUserId(user.getId());
+            if (null != roleList && roleList.size() > 0) {
+                for (Role role : roleList) {
+                    info.addRole(role.getName());
+                    List<Permission> permissionList = roleService.findPermissionByRoleId(role.getId());
+                    if (null != permissionList && permissionList.size() > 0) {
+                        for (Permission permission : permissionList) {
+                            info.addStringPermission(permission.getUrl());
                         }
                     }
                 }

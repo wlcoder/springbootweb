@@ -1,5 +1,6 @@
 package com.example.springboot.service;
 
+import com.example.springboot.entity.Permission;
 import com.example.springboot.entity.Role;
 import com.example.springboot.entity.Rolepermission;
 
@@ -19,7 +20,7 @@ public interface RoleService {
 
     void updataStatus(Long id, Long status);
 
-    List<Rolepermission> findPermissionByRoleId(Long id);
+    List<Permission> findPermissionByRoleId(Long id);
 
     void saveRolepermission(Rolepermission rolepermission);
 }

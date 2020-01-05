@@ -49,5 +49,11 @@
         where id = #{id}
     </update>
 
+    <select id="findPermissionByRoleId" resultType="com.example.springboot.entity.Permission"
+            parameterType="java.lang.Long">
+       select p.* from role_permission rp  left join  permission  p on rp.pid= p.id
+        where rid = #{rid}
+    </select>
+
 
 </mapper>

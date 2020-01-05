@@ -1,5 +1,6 @@
 package com.example.springboot.service.impl;
 
+import com.example.springboot.entity.Permission;
 import com.example.springboot.entity.Role;
 import com.example.springboot.entity.Rolepermission;
 import com.example.springboot.mapper.mysql.RoleMapper;
@@ -50,8 +51,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Rolepermission> findPermissionByRoleId(Long id) {
-        return rolepermissionMapper.findPermissionByRoleId(id);
+    public List<Permission> findPermissionByRoleId(Long id) {
+        return roleMapper.findPermissionByRoleId(id);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.springboot.service.impl;
 
+import com.example.springboot.entity.Role;
 import com.example.springboot.entity.User;
 import com.example.springboot.entity.Userrole;
 import com.example.springboot.mapper.mysql.UserMapper;
@@ -97,8 +98,8 @@ public class UserServiceImpl implements UserService {
 
     /*根据用户Id查询角色*/
     @Override
-    public List<Userrole> findRoleByUserId(Long id) {
-        return userroleMapper.findRoleByUserId(id);
+    public List<Role> findRoleByUserId(Long id) {
+        return userMapper.findRoleByUserId(id);
     }
 
     /**

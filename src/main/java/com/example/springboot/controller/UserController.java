@@ -115,10 +115,18 @@ public class UserController {
     /*
      * 禁用 、启用
      */
+    @ResponseBody
     @RequestMapping(value = "/updateStatus")
-    public String updateStatus(Long id, Long status) {
-        userService.updataStatus(id, status);
-        return "success";
+    public Map<String, Object> updateStatus(Long id, Long status) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            userService.updataStatus(id, status);
+            map.put("msg", "success");
+        } catch (BaseException e) {
+            map.put("msg", "修改状态失败！");
+            return map;
+        }
+        return map;
     }
 
     /*
@@ -126,7 +134,7 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/updatePwd")
-    public Map updatePwd(@RequestBody User user) {
+    public Map<String, Object> updatePwd(@RequestBody User user) {
         Map<String, Object> map = new HashMap<>();
         try {
             userService.updatePwd(user);
@@ -180,21 +188,10 @@ public class UserController {
         //查询用户信息
         User user = userService.getUserById(id);
         //根据用户Id 查询所拥有的角色
-        List<Userrole> userroleList = userService.findRoleByUserId(id);
-
+        List<Role> roles = userService.findRoleByUserId(id);
         List<String> list = new ArrayList();
-        if (null != userroleList && userroleList.size() > 0) {
-            if (null != roleList && roleList.size() > 0) {
-                for (Role role : roleList) {
-                    for (Userrole userrole : userroleList) {
-                        if (role.getId() == userrole.getRid()) {
-                            role.setChecked(true);
-                        }
-                    }
-                }
-            }
-            //当前用户所拥有的角色名称
-            for (Userrole role : userroleList) {
+        if (null != roles && roles.size() > 0) {
+            for (Role role : roles) {
                 list.add(role.getName());
             }
         }

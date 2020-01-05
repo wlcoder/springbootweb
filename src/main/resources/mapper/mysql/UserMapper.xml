@@ -130,4 +130,9 @@
         </where>
     </select>
 
+    <select id="findRoleByUserId"  parameterType="java.lang.Long" resultType="com.example.springboot.entity.Role">
+        select r.* from user_role ur  LEFT JOIN role  r on ur.rid = r.id
+        where uid = #{uid}
+    </select>
+
 </mapper>

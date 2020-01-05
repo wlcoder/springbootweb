@@ -1,5 +1,6 @@
 package com.example.springboot.mapper.mysql;
 
+import com.example.springboot.entity.Role;
 import com.example.springboot.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -30,6 +31,8 @@ public interface UserMapper {
     void updatePwd(@Param("id") Long id, @Param("password") String password);
 
     List<User> searchUser(@Param("name") String name);
+
+    List<Role> findRoleByUserId(Long id);
 
 
 }

@@ -21,7 +21,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
     @Bean
     public WebMvcConfigurerAdapter webMvcConfigurerAdapter() {
         WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() {
-            //请求/,/index.html 跳转到login.index; main.html 跳转到dashboard.html
+            //请求/,/index.html 跳转到login.index; main.html 跳转到index.html
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
                 registry.addViewController("/").setViewName("login");
@@ -42,6 +42,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public LocaleResolver localeResolver() {
+        System.out.println("国际化。。。。。");
         return new MyLocaleResolver();
     }
 

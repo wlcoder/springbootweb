@@ -23,7 +23,6 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-
         //设置安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //添加Shiro内置过滤器
@@ -40,6 +39,7 @@ public class ShiroConfig {
         filterMap.put("/", "user");
         //直接访问 无需认证
         filterMap.put("/static/*", "anon");
+        filterMap.put("/toLogin", "anon");
         filterMap.put("/login", "anon");
         //登出
         filterMap.put("/loginout", "logout");
@@ -47,9 +47,8 @@ public class ShiroConfig {
         filterMap.put("/*", "authc");
         //登录页面
         shiroFilterFactoryBean.setLoginUrl("/toLogin");
-        //设置未授权提示页面
+        //设置未授权提示页面  : （无效 配置异常类NoPermissionException进行处理）
         shiroFilterFactoryBean.setUnauthorizedUrl("/noAuth");
-
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
 
@@ -64,13 +63,11 @@ public class ShiroConfig {
         return securityManager;
     }
 
-
     //创建realm
     @Bean(name = "userRealm")
     public UserRealm getRealm() {
         return new UserRealm();
     }
-
 
     @Bean
     public SimpleCookie rememberMeCookie() {

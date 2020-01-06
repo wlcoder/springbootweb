@@ -2,10 +2,13 @@ package com.example.springboot.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.codec.Base64;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,20 +36,20 @@ public class ShiroConfig {
          * role: 该资源必须得到角色权限才可以访问
          */
         Map<String, String> filterMap = new LinkedHashMap<>();
-
+        //配置记住我或认证通过可以访问的地址
+        filterMap.put("/", "user");
         //直接访问 无需认证
         filterMap.put("/static/*", "anon");
         filterMap.put("/login", "anon");
         //登出
         filterMap.put("/loginout", "logout");
         //访问请求需要相应的权限
-        //   filterMap.put("/*", "authc");
-        //配置记住我或认证通过可以访问的地址
-        filterMap.put("/*", "user");
+        filterMap.put("/*", "authc");
         //登录页面
         shiroFilterFactoryBean.setLoginUrl("/toLogin");
         //设置未授权提示页面
         shiroFilterFactoryBean.setUnauthorizedUrl("/noAuth");
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
 
@@ -56,8 +59,8 @@ public class ShiroConfig {
     @Bean(name = "securityManager")
     public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(userRealm);
         securityManager.setRememberMeManager(rememberMeManager());
+        securityManager.setRealm(userRealm);
         return securityManager;
     }
 
@@ -94,6 +97,31 @@ public class ShiroConfig {
     @Bean
     public ShiroDialect getShiroDialect() {
         return new ShiroDialect();
+    }
+
+    /**
+     * 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions)
+     *
+     * @return
+     */
+    @Bean
+    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        advisorAutoProxyCreator.setProxyTargetClass(true);
+        return advisorAutoProxyCreator;
+    }
+
+    /**
+     * 开启aop注解支持
+     *
+     * @param securityManager
+     * @return
+     */
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
     }
 
 

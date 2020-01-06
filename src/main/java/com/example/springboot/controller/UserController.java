@@ -46,6 +46,7 @@ public class UserController {
      * 新增用户
      */
     @ResponseBody
+    @RequiresPermissions("/user/addUser")
     @RequestMapping(value = "/addUser")
     public Map addUser(@RequestBody User user, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
@@ -87,6 +88,7 @@ public class UserController {
      *
      */
     @ResponseBody
+    @RequiresPermissions("/user/updateUser")
     @RequestMapping(value = "/updateUser")
     public Map updateUser(@RequestBody User user) {
         Map<String, Object> map = new HashMap<>();
@@ -106,6 +108,7 @@ public class UserController {
     /*
      * 删除用户
      */
+    @RequiresPermissions("/user/deleteUser")
     @RequestMapping(value = "/deleteUser")
     public String deleteUser(Long id) {
         userService.delUser(id);
@@ -115,8 +118,10 @@ public class UserController {
     /*
      * 禁用 、启用
      */
+
     @ResponseBody
     @RequestMapping(value = "/updateStatus")
+    @RequiresPermissions("/user/updateStatus")
     public Map<String, Object> updateStatus(Long id, Long status) {
         Map<String, Object> map = new HashMap<>();
         try {
@@ -133,6 +138,7 @@ public class UserController {
      * 密码修改
      */
     @ResponseBody
+    @RequiresPermissions("/user/updatePwd")
     @RequestMapping(value = "/updatePwd")
     public Map<String, Object> updatePwd(@RequestBody User user) {
         Map<String, Object> map = new HashMap<>();
@@ -205,6 +211,7 @@ public class UserController {
 
     //设置角色
     @ResponseBody
+    @RequiresPermissions("/user/setUserRole")
     @RequestMapping("/setUserRole")
     public Map setUserRole(@RequestBody Userrole userrole) {
         Map<String, Object> map = new HashMap<>();

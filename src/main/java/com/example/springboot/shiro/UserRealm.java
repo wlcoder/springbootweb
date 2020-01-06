@@ -28,6 +28,8 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         System.out.println("执行授权逻辑");
+        /*select  p.* from role_permission rp LEFT JOIN permission p on rp.rid = p.id where rp.rid in (
+                select  r.id from user_role ur LEFT JOIN role r  on ur.rid =r.id where  ur.uid = "33")*/
         //给资源进行授权
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         User user = (User) principalCollection.getPrimaryPrincipal();

@@ -26,9 +26,10 @@
 
             <div>
                 <div style="float: left">
-                <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#userModal" onclick="setUrl()">
-                    用户添加
-                </button>
+		     		   <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#userModal"
+                               onclick="setUrl()">
+                          用户添加
+                       </button>
                 </div>
                 <div style="float: right">
                      <input type="text" class="form-control" placeholder="请输入用户名或昵称" id="search_user"
@@ -310,6 +311,10 @@
             data: {"id": id},
             type: "post",
             success: function (data) {
+                if (data != null && data == "无权限") {
+                    alert(data);
+                    return;
+                }
                 if (data) {
                     var user = data.user;
                     //赋值
@@ -343,6 +348,10 @@
             async: false,
             timeout: 50000,
             success: function (data) {
+                if (data != null && data == "无权限") {
+                    alert(data);
+                    return;
+                }
                 if (data != null && data.msg == 'success') {
                     location.reload();
                     alert("操作成功！");
@@ -350,8 +359,11 @@
                     alert(data.msg);
                 }
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("出错了");
+            error: function (data) {
+                if (data != null && data.responseText == "无权限") {
+                    alert(data.responseText);
+                    return;
+                }
             }
         });
     }
@@ -363,6 +375,10 @@
             data: {"id": id},
             type: "post",
             success: function (data) {
+                if (data != null && data == "无权限") {
+                    alert(data);
+                    return;
+                }
                 location.reload();
                 alert("删除成功！");
             }
@@ -376,6 +392,9 @@
             data: {'id': id, 'status': status},
             type: "post",
             success: function (data) {
+                if (data != null && data == "无权限") {
+                    alert(data);
+                }
                 location.reload();
             }
         });
@@ -394,6 +413,7 @@
         user.password = $('#pwd_old').val();
         user.newpwd = $('#pwd_renew').val();
         user.renewpwd = $('#pwd_renew').val();
+        debugger;
         $.ajax({
             url: '/user/updatePwd',
             data: JSON.stringify(user),
@@ -409,8 +429,12 @@
                     alert(data.msg);
                 }
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("出错了");
+            error: function (data) {
+                if (data != null && data.responseText == "无权限") {
+                    alert(data.responseText);
+                    return;
+                }
+                alert("操作失败！");
             }
         });
     }
@@ -481,7 +505,7 @@
                 }
             },
             error: function () {
-                alert('查询出错！');
+                alert('查询出错');
             }
         });
     }

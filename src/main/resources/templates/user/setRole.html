@@ -112,7 +112,6 @@
 
     //确认按钮 设置角色
     function set_role() {
-        debugger;
         var tbr = $('table tbody tr');
         var rids = [];
         for (var i = 0; i < tbr.length; i++) {
@@ -141,6 +140,12 @@
                     alert("角色设置成功！");
                 } else {
                     alert(data.msg);
+                }
+            },
+            error: function (data) {
+                if (data != null && data.responseText == "无权限") {
+                    alert(data.responseText);
+                    return;
                 }
             }
         });

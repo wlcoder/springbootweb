@@ -1,10 +1,12 @@
 package com.example.springboot.shiro;
 
-import com.example.springboot.entity.*;
-import com.example.springboot.service.PermissionService;
+import com.example.springboot.entity.Permission;
+import com.example.springboot.entity.Role;
+import com.example.springboot.entity.User;
 import com.example.springboot.service.RoleService;
 import com.example.springboot.service.UserService;
 import com.example.springboot.util.md5.Md5Util;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -19,8 +21,6 @@ public class UserRealm extends AuthorizingRealm {
     private UserService userService;
     @Autowired
     private RoleService roleService;
-    @Autowired
-    private PermissionService permissionService;
 
     /**
      * 执行授权逻辑
@@ -64,6 +64,10 @@ public class UserRealm extends AuthorizingRealm {
         if (null != user && user.getStatus() == 0) {
             throw new DisabledAccountException();
         }
-        return new SimpleAuthenticationInfo(user, user.getPassword(), "");
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(), getName());
+        //验证成功 把用户信息保存在session中
+        SecurityUtils.getSubject().getSession().setAttribute("userInfo", user);
+        SecurityUtils.getSubject().getSession().setTimeout(30 * 60 * 1000);
+        return authenticationInfo;
     }
 }

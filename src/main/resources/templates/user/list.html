@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>springboot</title>
+    <title>WL</title>
     <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
     <link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap-select/2.0.0-beta1/css/bootstrap-select.min.css" rel="stylesheet">
@@ -48,11 +48,11 @@
                         <!-- <th th:width="90">密码</th>-->
                         <th th:width="120">昵称</th>
                         <th th:width="130">邮箱</th>
-                        <th th:width="100">图像</th>
+                        <!--<th th:width="100">图像</th>-->
                         <th th:width="50">状态</th>
                         <th th:width="120">ip</th>
-                        <th th:width="100">创建时间</th>
-                        <th th:width="130">最后登陆时间</th>
+                        <th th:width="120">创建时间</th>
+                        <th th:width="150">最后登陆时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -63,7 +63,7 @@
                         <!-- <td th:text="${user.password}"></td>-->
                         <td th:text="${user.nickname}"></td>
                         <td th:text="${user.email}"></td>
-                        <td th:text="${user.image}"></td>
+                        <!--<td th:text="${user.image}"></td>-->
                         <td th:text="${user.status}==0?'禁用':'启用'"></td>
                         <td th:text="${user.ip}"></td>
                         <td th:text="${#dates.format(user.createTime, 'yyyy-MM-dd')}"></td>

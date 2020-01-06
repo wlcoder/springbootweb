@@ -1,5 +1,6 @@
 package com.example.springboot.controller;
 
+import com.example.springboot.entity.User;
 import com.example.springboot.service.UserService;
 import com.example.springboot.util.redis.RedisUtil;
 import org.apache.shiro.SecurityUtils;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @Controller
 public class LoginController {
@@ -68,6 +72,7 @@ public class LoginController {
 
     @RequestMapping("/toLogin")
     public String toLogin() {
+        System.out.println("跳转到登录页面");
         return "login";
     }
 
@@ -86,15 +91,19 @@ public class LoginController {
      * org.apache.shiro.authc.AuthenticationException       上面异常的父类
      */
     @RequestMapping("/login")
-    public String login(String username, String password, Model model) {
+    public String login(String username, String password, boolean rememberMe, Model model, HttpSession session) {
         //1.获取Subject
         Subject subject = SecurityUtils.getSubject();
         //2.封装用户数据
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+//        if (rememberMe != null && rememberMe == 1) {
+//            token.setRememberMe(true);
+//        } else {
+//            token.setRememberMe(false);
+//        }
         //3.执行登录方法
         try {
             subject.login(token);
-            return "index";
         } catch (UnknownAccountException e) {
             model.addAttribute("msg", "用户名不存在！");
             return "login";
@@ -103,6 +112,22 @@ public class LoginController {
             return "login";
         } catch (DisabledAccountException e) {
             model.addAttribute("msg", "该用户已被禁用！");
+            return "login";
+        }
+        //判断验证是否通过
+        if (subject.isAuthenticated()) {
+            //获取登录用户信息 展示在页面上
+            User userInfo = (User) subject.getSession().getAttribute("userInfo");
+            String sessionId = session.getId();
+            session.setAttribute(sessionId, userInfo);
+            session.setAttribute("loginUser", username);
+            //  model.addAttribute("userInfo", userInfo);
+            //修改最后登录时间
+            userInfo.setLastLoginTime(new Date());
+            userService.updateUser(userInfo);
+            return "index";
+        } else {
+            token.clear();
             return "login";
         }
     }

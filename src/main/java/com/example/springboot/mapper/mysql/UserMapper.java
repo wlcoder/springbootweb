@@ -30,8 +30,6 @@ public interface UserMapper {
 
     void updatePwd(@Param("id") Long id, @Param("password") String password);
 
-    List<User> searchUser(@Param("name") String name);
-
     List<Role> findRoleByUserId(Long id);
 
 

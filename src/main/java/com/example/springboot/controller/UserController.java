@@ -224,19 +224,4 @@ public class UserController {
         return map;
     }
 
-    //根据搜索框查询用户
-    @ResponseBody
-    @RequestMapping("/searchUser")
-    public Map searchUser(String name) {
-        Map<String, Object> map = new HashMap<>();
-        try {
-            List<User> list = userService.searchUser(name);
-            map.put("msg", list);
-        } catch (BaseException e) {
-            map.put("msg", e.getMessage());
-        }
-        return map;
-        // return "redirect:/user/queryUser?name=" + name;
-    }
-
 }

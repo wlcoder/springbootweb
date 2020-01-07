@@ -1,6 +1,5 @@
-package com.example.springboot.controller;
+package com.example.springboot.util.exception;
 
-import com.example.springboot.util.exception.BaseException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 

@@ -125,12 +125,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    //搜索框查询
-    @Override
-    public List<User> searchUser(String name) {
-        return userMapper.searchUser(name);
-    }
-
     @Override
     public User getUserByUsername(String username) {
         return userMapper.getUserByUsername(username);

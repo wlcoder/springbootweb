@@ -28,7 +28,5 @@ public interface UserService {
 
     void saveUserrole(Userrole userrole);
 
-    List<User> searchUser(String name);
-
-    User getUserByUsername (String username);
+    User getUserByUsername(String username);
 }

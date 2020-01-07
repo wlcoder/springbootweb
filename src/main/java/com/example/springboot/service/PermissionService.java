@@ -15,4 +15,7 @@ public interface PermissionService {
     void updatePermission(Permission permission);
 
     void delPermission(Long id);
+
+    void saveBatchPermission(List<Permission> list);
+
 }

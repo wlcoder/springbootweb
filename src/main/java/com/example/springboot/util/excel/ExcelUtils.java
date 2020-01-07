@@ -285,7 +285,7 @@ public class ExcelUtils {
         //冻结窗格
         wb.getSheet("Sheet1").createFreezePane(0, 1, 0, 1);
         //浏览器下载excel
-        buildExcelDocument("abbot.xlsx", wb, response);
+        buildExcelDocument(path, wb, response);
         //生成excel文件
         buildExcelFile(path, wb);
     }

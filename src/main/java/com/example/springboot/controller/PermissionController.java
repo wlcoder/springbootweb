@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
@@ -118,6 +119,20 @@ public class PermissionController {
         String date = dateFormat.format(new Date());
         path = path + "permission" + date + ".xlsx";
         ExcelUtils.writeExcel(response, permissionList, Permission.class, path);
+    }
+
+    /*
+     * 权限批量导入
+     */
+    @RequestMapping(value = "/readExcel")
+    public String readExcel(MultipartFile file) {
+        System.out.println("执行权限导入。。。。。。。。");
+        List<Permission> list = ExcelUtils.readExcel("", Permission.class, file);
+        System.out.println("导入条数：" + list.size());
+        if (null != list && list.size() > 0) {
+            permissionService.saveBatchPermission(list);
+        }
+        return "redirect:/permission/queryPermission";
     }
 
 }

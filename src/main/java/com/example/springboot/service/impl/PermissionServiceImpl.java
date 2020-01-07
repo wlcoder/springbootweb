@@ -38,4 +38,9 @@ public class PermissionServiceImpl implements PermissionService {
     public void delPermission(Long id) {
         permissionMapper.delPermission(id);
     }
+
+    @Override
+    public void saveBatchPermission(List<Permission> list) {
+        permissionMapper.saveBatchPermission(list);
+    }
 }

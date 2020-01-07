@@ -26,9 +26,14 @@
                             onclick="setUrl()"> 权限添加
                     </button>
                 </div>
-                <div style="float: right;margin-bottom: 7px">
-                    <button class="btn btn-sm btn-success" onclick="setUrl()"> 导入</button>
-                    <button class="btn btn-sm btn-success" onclick="exportExcel()"> 导出</button>
+                <div style="float: right;">
+                    <form action="/permission/readExcel" method="post" enctype="multipart/form-data" style="display:inline;">
+                        选择文件:<input type="file" name="file" id="excel-file">
+                        <input class="btn btn-sm btn-success" style="margin-bottom: 7px" type="submit" value="导入"
+                              >
+                    </form>
+                    <button class="btn btn-sm btn-success" style="margin-bottom: 7px" onclick="exportExcel()"> 导出
+                    </button>
                 </div>
             </div>
             <p></p>
@@ -214,6 +219,20 @@
             type: "post",
             success: function (data) {
                 alert("权限导出成功！");
+            }
+        });
+    }
+
+    //导入
+    function readExcel() {
+        debugger;
+       var ss=  $('#excel-file').val();
+        $.ajax({
+            url: '/permission/readExcel',
+            data: "",
+            type: "post",
+            success: function (data) {
+                alert("权限导入成功！");
             }
         });
     }

@@ -16,4 +16,6 @@ public interface PermissionMapper {
 
     void delPermission(Long id);
 
+    void saveBatchPermission(List<Permission> list);
+
 }

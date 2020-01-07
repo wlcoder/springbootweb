@@ -45,5 +45,14 @@
         delete from permission where id = #{id}
     </delete>
 
+    <!-- 批量新增权限-->
+    <insert id="saveBatchPermission" parameterType="java.util.List">
+        insert into permission (name, url)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name,jdbcType=VARCHAR},#{item.url,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
 
 </mapper>

@@ -20,11 +20,17 @@
         <!--引入侧边栏-->
         <div th:replace="commons/bar::#sidebar(activeUri='permission')"></div>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#permissionModal"
-                    onclick="setUrl()">
-                权限添加
-            </button>
-            <!--<button type="btn btn-sm btn-success" class="btn btn-primary">搜索</button>-->
+            <div>
+                <div style="float: left;margin-bottom: 7px">
+                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#permissionModal"
+                            onclick="setUrl()"> 权限添加
+                    </button>
+                </div>
+                <div style="float: right;margin-bottom: 7px">
+                    <button class="btn btn-sm btn-success" onclick="setUrl()"> 导入</button>
+                    <button class="btn btn-sm btn-success" onclick="exportExcel()"> 导出</button>
+                </div>
+            </div>
             <p></p>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
@@ -199,6 +205,19 @@
             }
         });
     }
+
+    //导出
+    function exportExcel() {
+        $.ajax({
+            url: '/permission/exportExcel',
+            data: "",
+            type: "post",
+            success: function (data) {
+                alert("权限导出成功！");
+            }
+        });
+    }
+
 
 </script>
 </body>

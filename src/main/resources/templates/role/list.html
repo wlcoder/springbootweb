@@ -20,11 +20,11 @@
         <!--引入侧边栏-->
         <div th:replace="commons/bar::#sidebar(activeUri='role')"></div>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#roleModal" onclick="setUrl()">
-                角色添加
-            </button>
-            <!--<button type="btn btn-sm btn-success" class="btn btn-primary">搜索</button>-->
-            <p></p>
+            <div style="margin-bottom: 7px">
+                <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#roleModal" onclick="setUrl()">
+                    角色添加
+                </button>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>

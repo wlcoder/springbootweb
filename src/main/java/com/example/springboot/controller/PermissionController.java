@@ -2,6 +2,7 @@ package com.example.springboot.controller;
 
 import com.example.springboot.entity.Permission;
 import com.example.springboot.service.PermissionService;
+import com.example.springboot.util.excel.ExcelUtils;
 import com.example.springboot.util.exception.BaseException;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,5 +104,20 @@ public class PermissionController {
         return "redirect:/permission/queryPermission";
     }
 
+    /*
+     * 权限导出
+     * 按照日期进行导出
+     *
+     */
+    @RequestMapping(value = "/exportExcel")
+    public void exportExcel(HttpServletResponse response) {
+        System.out.println("执行权限导出。。。。。。。。");
+        List<Permission> permissionList = permissionService.getAllPermission();
+        String path = "D:\\my_Java\\springbootweb-excel\\";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+        String date = dateFormat.format(new Date());
+        path = path + "permission" + date + ".xlsx";
+        ExcelUtils.writeExcel(response, permissionList, Permission.class, path);
+    }
 
 }

@@ -3,6 +3,7 @@ package com.example.springboot.service;
 import com.example.springboot.entity.Role;
 import com.example.springboot.entity.User;
 import com.example.springboot.entity.Userrole;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface UserService {
     void saveUserrole(Userrole userrole);
 
     User getUserByUsername(String username);
+
+    void uploadImg(Long id, MultipartFile file, String uploadDir);
 }

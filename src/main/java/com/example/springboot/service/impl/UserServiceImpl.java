@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -130,5 +133,37 @@ public class UserServiceImpl implements UserService {
         return userMapper.getUserByUsername(username);
     }
 
+    //上传用户图像
+    @Override
+    public void uploadImg(Long id, MultipartFile file, String uploadDir) {
+        try {
+            String imgUrl = null;
+            String filename = upload(file, uploadDir, file.getOriginalFilename());
+            if (!StringUtils.isEmpty(filename)) {
+                imgUrl = new File(uploadDir).getName() + "/" + filename;
+            }
+            //保存图片路径
+            User user = userMapper.getUserById(id);
+            user.setImage(imgUrl);
+            userMapper.updateUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //图片保存在本地磁盘内
+    public String upload(MultipartFile file, String path, String fileName) throws Exception {
+        // 生成新的文件名
+        String realPath = path + "/" + UUID.randomUUID().toString().replace("-", "")
+                + fileName.substring(fileName.lastIndexOf("."));
+        File dest = new File(realPath);
+        // 判断文件父目录是否存在
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdir();
+        }
+        // 保存文件
+        file.transferTo(dest);
+        return dest.getName();
+    }
 
 }

@@ -32,5 +32,4 @@ public interface UserMapper {
 
     List<Role> findRoleByUserId(Long id);
 
-
 }

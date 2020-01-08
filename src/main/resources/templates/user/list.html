@@ -47,11 +47,11 @@
                         <!-- <th th:width="90">密码</th>-->
                         <th th:width="120">昵称</th>
                         <th th:width="130">邮箱</th>
-                        <!--<th th:width="100">图像</th>-->
+                        <th th:width="110">图像</th>
                         <th th:width="50">状态</th>
                         <th th:width="120">ip</th>
                         <th th:width="120">创建时间</th>
-                        <th th:width="150">最后登陆时间</th>
+                        <!--<th th:width="150">最后登陆时间</th>-->
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -62,11 +62,11 @@
                         <!-- <td th:text="${user.password}"></td>-->
                         <td th:text="${user.nickname}"></td>
                         <td th:text="${user.email}"></td>
-                        <!--<td th:text="${user.image}"></td>-->
+                        <td th:text="${user.image}"></td>
                         <td th:text="${user.status}==0?'禁用':'启用'"></td>
                         <td th:text="${user.ip}"></td>
                         <td th:text="${#dates.format(user.createTime, 'yyyy-MM-dd')}"></td>
-                        <td th:text="${#dates.format(user.lastLoginTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <!--<td th:text="${#dates.format(user.lastLoginTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
                         <td>
                             <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userModal"
                                th:onclick="'javascript: update('+${user.id}+')'">编辑
@@ -80,6 +80,9 @@
                             <button class="btn btn-sm btn-success"
                                     th:onclick="'javascript: disable_user('+${user.id}+',1)'">启用
                             </button>
+                             <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#imgModal"
+                                th:onclick="'javascript: setImgid('+${user.id}+')'">图像上传
+                            </a>
                             <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#pwdModal"
                                th:onclick="'javascript: setId('+${user.id}+')'">重置密码
                             </a>
@@ -217,7 +220,45 @@
         </div>
     </div>
 </form>
+<!-- 模态框（图像上传） -->
+<form method="post" name="user" class="form-horizontal" role="form" id="form-img" style="margin: 20px;">
+    <div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="imgModalLabel" aria-hidden="true"
+         data-backdrop="static" data-keyboard="false"><!--控制点击模态框之外不消失-->
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:500px;">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="imgModalLabel">
+                        图像上传
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                </div>
 
+                <div class="modal-body">
+                    <input type="text" id="imgId" name="id" hidden>
+                    <div class="form-group">
+                        <div>
+                            <label class="form-inline"/>图像：
+                            <div class="col-sm-10">
+                                <input type="file" class="form-control" id="file" name="file" onchange="preview(this)"
+                                       style="width: 360px;"/></label>
+                            </div>
+                            <div id="preview" style="margin-left: 170px">
+                                　　<!--图片回显：默认隐藏-->
+                                　　<img style="width: 100px; height: 100px;display:none" id="imgHidden"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="margin: auto">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="submit_img();">上传</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 <!-- 模态框（角色分配） -->
 <form method="post" name="user" class="form-horizontal" role="form" id="form-role" style="margin: 20px;">
     <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel"
@@ -345,7 +386,7 @@
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json;charset=UTF-8',
-            async: false,
+            async: true,
             timeout: 50000,
             success: function (data) {
                 if (data != null && data == "无权限") {
@@ -420,7 +461,7 @@
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json;charset=UTF-8',
-            async: false,
+            async: true,
             success: function (data) {
                 if (data != null && data.msg == 'success') {
                     location.reload();
@@ -481,7 +522,7 @@
         $.ajax({
             url: "/user/toSetRole",
             type: 'post',
-            async: false,
+            async: true,
             data: {"id": uid},
             success: function (data) {
                 if (data) {
@@ -510,6 +551,7 @@
         });
     }
 
+    //搜索框查询用户信息
     function searchUser() {
         var name = $("#search_user").val();
         //直接调整页面查询路径
@@ -528,6 +570,58 @@
           });*/
     }
 
+    //图像上传设置ID
+    function setImgid(id) {
+        $('#form-img input').val("");
+        $('#imgId').val(id);
+    }
+
+    //图片回显:
+    function preview(file) {
+        $("#imgHidden").css("display", "none");
+        var prevDiv = document.getElementById('preview');
+        if (file.files && file.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+                prevDiv.innerHTML = '<img style="width: 100px;height: 100px;" src="' + evt.target.result + '" />';
+            }
+            reader.readAsDataURL(file.files[0]);
+        } else {
+            prevDiv.innerHTML = '<div class="img" style="width: 100px;height:100px;' +
+                'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
+        }
+    }
+
+    //图像上传
+    function submit_img() {
+        debugger;
+        var formData = new FormData();
+        formData.append("id", $("#imgId").val());
+        formData.append("file", $("#file")[0].files[0]);
+        $.ajax({
+            url: '/user/uploadImg',
+            data: formData,
+            type: 'POST',
+            async: true,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data != null && data.msg == 'success') {
+                    location.reload();
+                    alert("图像设置成功！");
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (data) {
+                if (data != null && data.responseText == "无权限") {
+                    alert(data.responseText);
+                    return;
+                }
+                alert("操作失败！");
+            }
+        });
+    }
 
 </script>
 </body>

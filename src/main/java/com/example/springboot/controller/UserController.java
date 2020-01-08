@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -222,6 +223,17 @@ public class UserController {
             map.put("msg", e.getMessage());
         }
         return map;
+    }
+
+    /*
+     * 上传用户图像
+     */
+    @RequestMapping("/uploadImg")
+    public String uploadImg(Long id, MultipartFile file) {
+        System.out.println("上传用户图像。。。。。");
+        String uploadDir = "D:\\my_Java\\springbootweb-img";
+        userService.uploadImg(id, file, uploadDir);
+        return "redirect:/user/queryUser";
     }
 
 }

@@ -70,12 +70,20 @@ spring:
 #配置国际化
   messages:
     basename: i18n.login
-#    rabbitmq配置
+# rabbitmq配置
   rabbitmq:
     host: localhost
     username: guest
     password: guest
-#    邮件配置
+  #配置文件传输
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
+
+# 邮件配置
   mail:
     host: smtp.qq.com
     username: 1608550717@qq.com
@@ -95,5 +103,7 @@ pagehelper:
   params: count=countSql
   reasonable: true
   support-methods-arguments: true
+
+
 
 

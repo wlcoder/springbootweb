@@ -38,7 +38,7 @@ public class LoginController {
                 System.out.println("=========" + sessionId);
                 session.setAttribute(sessionId, username);
                 //设置session失效时间（默认失效时间30分钟）
-                session.setMaxInactiveInterval(60 * 60);
+                session.setMaxInactiveInterval(60 * 60 *1000);
                 //用于页面显示登录用户名
                 session.setAttribute("loginUser", username);
 

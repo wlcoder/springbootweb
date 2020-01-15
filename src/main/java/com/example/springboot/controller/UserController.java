@@ -228,12 +228,20 @@ public class UserController {
     /*
      * 上传用户图像
      */
+    @ResponseBody
     @RequestMapping("/uploadImg")
-    public String uploadImg(Long id, MultipartFile file) {
+    public Map<String, Object> uploadImg(Long id, MultipartFile file) {
         System.out.println("上传用户图像。。。。。");
-        String uploadDir = "D:\\my_Java\\springbootweb-img";
-        userService.uploadImg(id, file, uploadDir);
-        return "redirect:/user/queryUser";
+        Map<String, Object> map = new HashMap<>();
+        try {
+            String uploadDir = "D:\\my_Java\\springbootweb-img";
+            userService.uploadImg(id, file, uploadDir);
+            map.put("msg", "success");
+        } catch (BaseException e) {
+            map.put("msg", e.getMessage());
+
+        }
+        return map;
     }
 
 }

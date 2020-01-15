@@ -47,11 +47,11 @@
                         <!-- <th th:width="90">密码</th>-->
                         <th th:width="120">昵称</th>
                         <th th:width="130">邮箱</th>
-                        <th th:width="110">图像</th>
+                        <th th:width="60">图像</th>
                         <th th:width="50">状态</th>
-                        <th th:width="120">ip</th>
-                        <th th:width="120">创建时间</th>
-                        <!--<th th:width="150">最后登陆时间</th>-->
+                        <th th:width="100">ip</th>
+                        <th th:width="110">创建时间</th>
+                        <th th:width="110">最后登陆时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -62,11 +62,11 @@
                         <!-- <td th:text="${user.password}"></td>-->
                         <td th:text="${user.nickname}"></td>
                         <td th:text="${user.email}"></td>
-                        <td th:text="${user.image}"></td>
+                        <td><img style="width: 50px;height: 30px;" th:src="${user.image}"/></td>
                         <td th:text="${user.status}==0?'禁用':'启用'"></td>
                         <td th:text="${user.ip}"></td>
                         <td th:text="${#dates.format(user.createTime, 'yyyy-MM-dd')}"></td>
-                        <!--<td th:text="${#dates.format(user.lastLoginTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+                        <td th:text="${#dates.format(user.lastLoginTime, 'yyyy-MM-dd')}"></td>
                         <td>
                             <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#userModal"
                                th:onclick="'javascript: update('+${user.id}+')'">编辑
@@ -607,6 +607,7 @@
             contentType: false,
             success: function (data) {
                 if (data != null && data.msg == 'success') {
+                    debugger;
                     location.reload();
                     alert("图像设置成功！");
                 } else {

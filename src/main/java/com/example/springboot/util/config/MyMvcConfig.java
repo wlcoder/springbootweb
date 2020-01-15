@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -45,5 +46,12 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
         System.out.println("国际化。。。。。");
         return new MyLocaleResolver();
     }
+
+    //设置tomcat 虚拟路径  解决页面展示图片问题
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/user/**").addResourceLocations("file:D:/my_Java/");
+    }
+
 
 }

@@ -6,7 +6,6 @@ import com.example.springboot.entity.Userrole;
 import com.example.springboot.service.RoleService;
 import com.example.springboot.service.UserService;
 import com.example.springboot.util.exception.BaseException;
-import com.example.springboot.util.md5.Md5Util;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,7 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -61,8 +63,6 @@ public class UserController {
                 ip = "127.0.0.1";
             }
             user.setIp(ip);
-            user.setCreateTime(new Date());
-            user.setPassword(Md5Util.getMD5(user.getPassword()));
             userService.saveUser(user);
             map.put("msg", "success");
         } catch (BaseException e) {

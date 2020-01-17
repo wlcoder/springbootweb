@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,11 +45,17 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class, transactionManager = "mysqlTransactionManager")
     @Override
     public void saveUser(User user) throws BaseException {
-        if (null != user && !StringUtils.isEmpty(user.getNickname())) {
-            User u = userMapper.getUserByNickname(user.getNickname());
+        if (null != user && !StringUtils.isEmpty(user.getNickname()) && !StringUtils.isEmpty(user.getUsername())) {
+            User u = userMapper.getUserByUsername(user.getUsername());
+            User u1 = userMapper.getUserByNickname(user.getNickname());
             if (null != u) {
+                throw new BaseException("用户已存在！");
+            } else if (null != u1) {
                 throw new BaseException("用户昵称重复！");
             } else {
+                user.setCreateTime(new Date());
+                user.setStatus(1L);
+                user.setPassword(Md5Util.getMD5(user.getPassword()));
                 userMapper.saveUser(user);
             }
         }
@@ -80,7 +87,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = "mysqlTransactionManager")
     public void updatePwd(User user) {
-        if (null == user.getId() || null == user.getPassword() || null == user.getNewpwd() || null == user.getRenewpwd()) {
+        if (null == user.getId() || StringUtils.isEmpty(user.getPassword()) || StringUtils.isEmpty(user.getNewpwd()) || StringUtils.isEmpty(user.getRenewpwd())) {
             throw new BaseException("信息为空！");
         }
         User u = userMapper.getUserById(user.getId());
@@ -89,11 +96,11 @@ public class UserServiceImpl implements UserService {
         } else {
             if (!u.getPassword().equals(Md5Util.getMD5(user.getPassword()))) {
                 throw new BaseException("原密码输入错误！");
-            } else if (user.getNewpwd().equals(user.getPassword())) {
+            } /*else if (user.getNewpwd().equals(user.getPassword())) { 由前端判断
                 throw new BaseException("原密码与新密码一致！");
             } else if (!user.getNewpwd().equals(user.getRenewpwd())) {
                 throw new BaseException("两次密码输入不一致！");
-            } else {
+            } */else {
                 userMapper.updatePwd(user.getId(), Md5Util.getMD5(user.getNewpwd()));
             }
         }

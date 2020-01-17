@@ -12,7 +12,9 @@
     <link href="https://cdn.bootcss.com/bootstrap-select/2.0.0-beta1/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap-select/2.0.0-beta1/css/bootstrap-select.css" rel="stylesheet">
     <style type="text/css">/*解决引入模态框后页面抖动*/
-        body { padding-right: 0 !important; }
+    body {
+        padding-right: 0 !important;
+    }
     </style>
 </head>
 
@@ -190,7 +192,7 @@
                             <label class="form-inline"/>原密码&nbsp&nbsp&nbsp：
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" style="width:100%;" name="oldpwd"
-                                       id="pwd_old" placeholder="请输入原密码"/></label>
+                                       id="pwd_old" placeholder="请输入原密码" required="true"/></label>
                             </div>
                         </div>
                     </div>
@@ -199,7 +201,7 @@
                             <label class="form-inline"/>新密码&nbsp&nbsp&nbsp：
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" style="width:100%;" name="newpwd"
-                                       id="pwd_new" placeholder="请输入新密码"/></label>
+                                       id="pwd_new" placeholder="请输入新密码" required="true"/></label>
                             </div>
                         </div>
                     </div>
@@ -208,7 +210,7 @@
                             <label class="form-inline"/>密码确认：
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" style="width:100%;" name="renewpad"
-                                       id="pwd_renew" placeholder="请再次输入新密码"/></label>
+                                       id="pwd_renew" placeholder="请再次输入新密码" required="true"/></label>
                             </div>
                         </div>
                     </div>
@@ -454,9 +456,22 @@
         var user = {};
         user.id = $('#id').val();
         user.password = $('#pwd_old').val();
-        user.newpwd = $('#pwd_renew').val();
+        user.newpwd = $('#pwd_new').val();
         user.renewpwd = $('#pwd_renew').val();
-        debugger;
+        if ('' == user.password || '' == user.newpwd || '' == user.renewpwd) {
+            alert("请检查输入内容是否完整！");
+            return;
+        }
+        if ('' != user.password && '' != user.newpwd && '' != user.renewpwd) {
+            if (user.password == user.newpwd) {
+                alert("新密码和原密码一致！");
+                return;
+            }
+            if (user.newpwd != user.renewpwd) {
+                alert("两次输入的新密码不一致！");
+                return;
+            }
+        }
         $.ajax({
             url: '/user/updatePwd',
             data: JSON.stringify(user),

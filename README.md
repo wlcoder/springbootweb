@@ -1,5 +1,5 @@
 # springbootweb
-springboot + thymeleaf + bootstarp  
+springboot + thymeleaf + shiro
 项目练习。。。  
 
 新增generatorConfig逆向工程；  

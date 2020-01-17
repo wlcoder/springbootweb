@@ -67,9 +67,8 @@ CREATE TABLE `employee` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
-
-INSERT INTO `user` VALUES (33, 'wanglong', '系统管理员', 'long@qq.com', 'adf08ad3870aec8f7e8b767d3e72b8ef', '2019-12-14 11:23:18', '2020-1-15 20:57:31', 1, '127.0.0.1', 'springbootweb-img/809b3a9591ea4d1db36b2be9c770695c.png');
-INSERT INTO `user` VALUES (39, 'we', '呵呵', 'haa@qq.com', 'd1681f4daf93caf0d34e39e45a3d5363', '2020-1-6 16:31:23', NULL, 1, '127.0.0.1', 'springbootweb-img/691d703b81a9431ea671a6521f327540.jpg');
+INSERT INTO `user` VALUES (33, 'wanglong', '系统管理员', 'long@qq.com', 'adf08ad3870aec8f7e8b767d3e72b8ef', '2019-12-14 11:23:18', '2020-1-17 09:39:55', 1, '127.0.0.1', 'springbootweb-img/809b3a9591ea4d1db36b2be9c770695c.png');
+INSERT INTO `user` VALUES (40, 'admin', '超级管理员', '123@qq.com', '3e35c103b8e9f484b92f17cfc3e55e57', '2020-1-16 09:58:12', '2020-1-17 09:57:08', 1, '127.0.0.1', 'springbootweb-img/3505540aad7f480d9360e9ece52c3f26.ico');
 
 INSERT INTO `role` VALUES (8, 'admin', 'W001', '管理员', '1');
 INSERT INTO `role` VALUES (9, '董事长', 'W002', '公司NO1', '1');
@@ -84,10 +83,10 @@ INSERT INTO `permission` VALUES (14, '用户添加角色', '/user/setUserRole');
 INSERT INTO `permission` VALUES (15, '用户删除', '/user/deleteUser');
 INSERT INTO `permission` VALUES (26, '用户编辑', '/user/updateUser');
 
-INSERT INTO `user_role` VALUES (14, 39, 8);
-INSERT INTO `user_role` VALUES (15, 39, 9);
 INSERT INTO `user_role` VALUES (16, 33, 8);
 INSERT INTO `user_role` VALUES (17, 33, 9);
+INSERT INTO `user_role` VALUES (18, 40, 8);
+INSERT INTO `user_role` VALUES (19, 40, 9);
 
 INSERT INTO `role_permission` VALUES (68, 8, 8);
 INSERT INTO `role_permission` VALUES (69, 8, 9);

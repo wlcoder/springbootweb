@@ -19,7 +19,16 @@ springboot + thymeleaf + shiro
 整合shiro框架：实现登录登出，记住我，菜单以及按钮权限控制；   
 
 登录账号密码：admin admin   redis密码：root123456    
-实现效果如下：   
+实现效果截图如下： 
+![image](https://github.com/wlonghui/springbootweb/blob/master/images/springbootweb_img01.PNG)
+![image](https://github.com/wlonghui/springbootweb/blob/master/images/springbootweb_img02.PNG)
+![image](https://github.com/wlonghui/springbootweb/blob/master/images/springbootweb_img03.PNG)
+![image](https://github.com/wlonghui/springbootweb/blob/master/images/springbootweb_img05.PNG)
+![image](https://github.com/wlonghui/springbootweb/blob/master/images/springbootweb_img06.PNG)
+![image](https://github.com/wlonghui/springbootweb/blob/master/images/springbootweb_img07.PNG)
+![image](https://github.com/wlonghui/springbootweb/blob/master/images/springbootweb_img08.PNG)
+![image](https://github.com/wlonghui/springbootweb/blob/master/images/springbootweb_img09.PNG)
+
 
 
 

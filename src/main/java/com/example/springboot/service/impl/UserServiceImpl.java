@@ -76,7 +76,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delUser(Long id) {
-        userMapper.delUser(id);
+        User user = userMapper.getUserById(id);
+        if (null != user && user.getUsername().equals("admin")) {
+            throw new BaseException("超级管理员不可删除！");
+        } else {
+            userMapper.delUser(id);
+        }
     }
 
     @Override
@@ -100,7 +105,7 @@ public class UserServiceImpl implements UserService {
                 throw new BaseException("原密码与新密码一致！");
             } else if (!user.getNewpwd().equals(user.getRenewpwd())) {
                 throw new BaseException("两次密码输入不一致！");
-            } */else {
+            } */ else {
                 userMapper.updatePwd(user.getId(), Md5Util.getMD5(user.getNewpwd()));
             }
         }

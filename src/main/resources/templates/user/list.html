@@ -420,12 +420,19 @@
             data: {"id": id},
             type: "post",
             success: function (data) {
-                if (data != null && data == "无权限") {
-                    alert(data);
+                if (data != null && data.msg == 'success') {
+                    location.reload();
+                    alert("操作成功！");
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (data) {
+                if (data != null && data.responseText == "无权限") {
+                    alert(data.responseText);
                     return;
                 }
-                location.reload();
-                alert("删除成功！");
+                alert("操作失败！");
             }
         });
     }

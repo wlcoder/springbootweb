@@ -109,11 +109,19 @@ public class UserController {
     /*
      * 删除用户
      */
+    @ResponseBody
     @RequiresPermissions("/user/deleteUser")
     @RequestMapping(value = "/deleteUser")
-    public String deleteUser(Long id) {
-        userService.delUser(id);
-        return "redirect:/user/queryUser";
+    public Map<String, Object> deleteUser(Long id) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            userService.delUser(id);
+            map.put("msg", "success");
+        } catch (BaseException e) {
+            map.put("msg", e.getMessage());
+        }
+        return map;
+        // return "redirect:/user/queryUser";
     }
 
     /*

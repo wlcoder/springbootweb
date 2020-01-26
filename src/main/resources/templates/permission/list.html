@@ -10,7 +10,9 @@
     <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
     <link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
     <style type="text/css">/*解决引入模态框后页面抖动*/
-        body { padding-right: 0 !important; }
+    body {
+        padding-right: 0 !important;
+    }
     </style>
 </head>
 
@@ -33,8 +35,7 @@
                     <form action="/permission/readExcel" method="post" enctype="multipart/form-data"
                           style="display:inline;">
                         选择文件:<input type="file" name="file" id="excel-file">
-                        <input class="btn btn-sm btn-success" style="margin-bottom: 7px" type="submit" value="导入"
-                        >
+                        <input class="btn btn-sm btn-success" style="margin-bottom: 7px" type="submit" value="导入">
                     </form>
                     <button class="btn btn-sm btn-success" style="margin-bottom: 7px" onclick="exportExcel()"> 导出
                     </button>
@@ -229,7 +230,6 @@
 
     /* //导入
      function readExcel() {
-         debugger;
         var ss=  $('#excel-file').val();
          $.ajax({
              url: '/permission/readExcel',

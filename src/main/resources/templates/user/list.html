@@ -618,7 +618,6 @@
 
     //图像上传
     function submit_img() {
-        debugger;
         var formData = new FormData();
         formData.append("id", $("#imgId").val());
         formData.append("file", $("#file")[0].files[0]);
@@ -631,7 +630,6 @@
             contentType: false,
             success: function (data) {
                 if (data != null && data.msg == 'success') {
-                    debugger;
                     location.reload();
                     alert("图像设置成功！");
                 } else {

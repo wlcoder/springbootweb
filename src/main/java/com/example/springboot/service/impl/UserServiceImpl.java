@@ -81,6 +81,8 @@ public class UserServiceImpl implements UserService {
             throw new BaseException("超级管理员不可删除！");
         } else {
             userMapper.delUser(id);
+            //删除用户时删除所包含的角色
+            userroleMapper.delUserroleByUserId(id);
         }
     }
 

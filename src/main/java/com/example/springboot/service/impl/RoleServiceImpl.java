@@ -43,6 +43,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void delRole(Long id) {
         roleMapper.delRole(id);
+        //删除角色时删除角色对应的权限
+        rolepermissionMapper.delByRoleId(id);
     }
 
     @Override

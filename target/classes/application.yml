@@ -54,7 +54,7 @@ spring:
     # Redis服务器连接密码（默认为空）
     password: root123456
     # 连接超时时间（毫秒）
-    timeout: 3
+    timeout: 30
     # 连接池中的最大连接数
     poolMaxTotal: 10
     # 连接池中的最大空闲连接

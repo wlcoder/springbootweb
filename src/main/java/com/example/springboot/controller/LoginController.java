@@ -1,5 +1,6 @@
 package com.example.springboot.controller;
 
+import com.example.springboot.aop.TimeConsumeAnnotation;
 import com.example.springboot.entity.User;
 import com.example.springboot.service.UserService;
 import com.example.springboot.util.redis.RedisUtil;
@@ -90,6 +91,7 @@ public class LoginController {
      * org.apache.shiro.authc.CredentialsException          凭据异常
      * org.apache.shiro.authc.AuthenticationException       上面异常的父类
      */
+    @TimeConsumeAnnotation
     @RequestMapping("/login")
     public String login(String username, String password, boolean rememberMe, Model model, HttpSession session) {
         //1.获取Subject
